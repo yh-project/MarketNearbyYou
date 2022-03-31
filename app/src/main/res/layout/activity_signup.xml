@@ -51,23 +51,30 @@
                 android:hint="Password"
                 android:inputType="textPassword" />
 
-            <Button
-                android:id="@+id/login"
-                android:layout_width="100dp"
+            <TextView
+                android:id="@+id/text_check"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="로그인"
+                android:text="Check"
                 app:layout_constraintTop_toBottomOf="@+id/input_pwd"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/signup"
                 android:layout_marginTop="30dp"/>
+
+            <EditText
+                android:id="@+id/input_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/text_check"
+                android:layout_marginTop="10dp"
+                android:hint="Check"
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/signup"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="회원가입"
-                app:layout_constraintTop_toBottomOf="@id/input_pwd"
-                app:layout_constraintStart_toEndOf="@+id/login"
+                app:layout_constraintTop_toBottomOf="@id/input_check"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="30dp"/>
 
