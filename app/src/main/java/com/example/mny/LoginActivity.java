@@ -24,10 +24,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+
+
     private void startActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-
 }
