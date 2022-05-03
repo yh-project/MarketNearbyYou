@@ -45,5 +45,23 @@
         android:background="#000000"
         app:layout_constraintTop_toBottomOf="@+id/pickMarket"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/goodsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/pickCategory"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="적합한 상품이 없습니다."
+        android:textSize="30sp"
+        android:textColor="#000000"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/pickCategory"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

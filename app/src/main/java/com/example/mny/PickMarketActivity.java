@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class PickMarketActivity extends AppCompatActivity {
+    private NoticeDialog ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,16 +95,12 @@ public class PickMarketActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.searchMarket:
-                    startActivity(PickMarketActivity.class);
+                    ad = new NoticeDialog(PickMarketActivity.this, "등록된 상품이 없습니다.");
+                    ad.show();
                     break;
             }
         }
     };
-
-
-
-
-
 
     private void startActivity(Class c) {
         Intent intent = new Intent(this, c);

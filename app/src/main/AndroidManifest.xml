@@ -23,6 +23,7 @@
         <activity android:name=".AddMarketActivity2" android:exported="true" />
         <activity android:name=".CMainActivity" android:exported="true" />
         <activity android:name=".PickMarketActivity" android:exported="true" />
+        <activity android:name=".ShoppingBasketActivity" android:exported="true" />
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import android.widget.Button;
 
 public class CMainActivity extends AppCompatActivity {
     private CategoryDialog cd;
+    private NoticeDialog ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +43,6 @@ public class CMainActivity extends AppCompatActivity {
             }
         }
     };
-
-
-
-
-
 
     private void startActivity(Class c) {
         Intent intent = new Intent(this, c);
