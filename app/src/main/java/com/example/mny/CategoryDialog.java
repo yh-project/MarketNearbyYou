@@ -17,7 +17,7 @@ public class CategoryDialog extends Dialog {
 
     public CategoryDialog(@NonNull Context context) {
         super(context);
-        setContentView(R.layout.category_diaglog);
+        setContentView(R.layout.dialog_category);
 
         Spinner goodstype = findViewById(R.id.goodsType);
         Spinner currentstock = findViewById(R.id.currentStock);

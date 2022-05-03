@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="110dp">
+    android:layout_height="76dp">
 
     <TextView
         android:id="@+id/name"
@@ -19,19 +19,6 @@
         android:layout_marginStart="10dp"/>
 
     <TextView
-        android:id="@+id/number"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:text="상품 가격"
-        android:textSize="15sp"
-        android:textColor="#000000"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="10dp"/>
-
-    <TextView
         android:id="@+id/delivery"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
@@ -39,29 +26,19 @@
         android:textSize="15sp"
         android:textColor="#000000"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/number"
+        app:layout_constraintTop_toBottomOf="@+id/name"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="5dp"
         android:layout_marginStart="10dp" />
 
     <Button
-        android:id="@+id/addSB"
+        android:id="@+id/remove"
         android:layout_width="120dp"
         android:layout_height="45dp"
-        android:text="장바구니 담기"
+        android:text="삭제"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/GR"
-        android:layout_marginEnd="5dp"/>
-
-    <Button
-        android:id="@+id/GR"
-        android:layout_width="120dp"
-        android:layout_height="45dp"
-        android:text="예약"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addSB"
         android:layout_marginEnd="5dp"/>
 
     <View
@@ -69,6 +46,6 @@
         android:layout_height="1dp"
         android:background="#000000"
         app:layout_constraintTop_toBottomOf="@+id/delivery"
-        android:layout_marginTop="2.5dp" />
+        android:layout_marginTop="5dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

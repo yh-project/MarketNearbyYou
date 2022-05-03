@@ -19,7 +19,7 @@
         android:layout_marginStart="10dp"/>
 
     <TextView
-        android:id="@+id/number"
+        android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:text="상품 가격"
@@ -31,37 +31,48 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"/>
 
+    <Button
+        android:id="@+id/reduce"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/reduce_btn"
+        app:layout_constraintTop_toTopOf="@+id/delivery"
+        app:layout_constraintBottom_toBottomOf="@+id/delivery"
+        app:layout_constraintEnd_toStartOf="@+id/delivery"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp" />
+
     <TextView
         android:id="@+id/delivery"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:text="재고 현황"
+        android:text="재고 수"
         android:textSize="15sp"
         android:textColor="#000000"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/number"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price"
+        app:layout_constraintStart_toEndOf="@+id/reduce"
         android:layout_marginTop="5dp"
         android:layout_marginStart="10dp" />
 
     <Button
-        android:id="@+id/addSB"
-        android:layout_width="120dp"
-        android:layout_height="45dp"
-        android:text="장바구니 담기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/GR"
-        android:layout_marginEnd="5dp"/>
+        android:id="@+id/increase"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/increase_btn"
+        app:layout_constraintTop_toTopOf="@+id/delivery"
+        app:layout_constraintBottom_toBottomOf="@+id/delivery"
+        app:layout_constraintStart_toEndOf="@+id/delivery"
+        android:layout_marginStart="10dp" />
 
     <Button
-        android:id="@+id/GR"
+        android:id="@+id/remove"
         android:layout_width="120dp"
         android:layout_height="45dp"
-        android:text="예약"
+        android:text="삭제"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addSB"
         android:layout_marginEnd="5dp"/>
 
     <View

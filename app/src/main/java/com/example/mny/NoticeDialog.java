@@ -12,7 +12,7 @@ public class NoticeDialog extends Dialog {
 
     public NoticeDialog(@NonNull Context context, String content) {
         super(context);
-        setContentView(R.layout.notice_dialog);
+        setContentView(R.layout.dialog_notice);
 
         Button finish = findViewById(R.id.finish);
         TextView text = findViewById(R.id.text);
