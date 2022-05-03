@@ -15,9 +15,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Button login = findViewById(R.id.login);
         Button join = findViewById(R.id.join);
         Button addmarket = findViewById(R.id.addMarket);
 
+        login.setOnClickListener(onClickListener);
         join.setOnClickListener(onClickListener);
         addmarket.setOnClickListener(onClickListener);
     }
@@ -31,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
                     break;
                 case R.id.addMarket:
                     startActivity(AddMarketActivity1.class);
+                    break;
+                case R.id.login:
+                    startActivity(CMainActivity.class);
                     break;
             }
         }

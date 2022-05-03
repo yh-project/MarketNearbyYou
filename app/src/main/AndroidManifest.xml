@@ -21,6 +21,8 @@
         <activity android:name=".JoinActivity" android:exported="true" />
         <activity android:name=".AddMarketActivity1" android:exported="true" />
         <activity android:name=".AddMarketActivity2" android:exported="true" />
+        <activity android:name=".CMainActivity" android:exported="true" />
+        <activity android:name=".PickMarketActivity" android:exported="true" />
     </application>
 
 </manifest>

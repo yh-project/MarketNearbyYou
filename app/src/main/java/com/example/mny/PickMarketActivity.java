@@ -11,15 +11,15 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class AddMarketActivity2 extends AppCompatActivity {
+public class PickMarketActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addmarket2);
+        setContentView(R.layout.activity_pickmarket);
 
-        Button addmarket = findViewById(R.id.addMarket);
-        addmarket.setOnClickListener(onClickListener);
+        Button searchMarket = findViewById(R.id.searchMarket);
+        searchMarket.setOnClickListener(onClickListener);
 
         Spinner seedo = findViewById(R.id.seedo);
         Spinner seegungoo = findViewById(R.id.seegungoo);
@@ -70,7 +70,7 @@ public class AddMarketActivity2 extends AppCompatActivity {
                     case "제주특별자치도":
                         ids = R.array.Daegu;break;
                 }
-                ArrayAdapter<CharSequence> sgg = ArrayAdapter.createFromResource(AddMarketActivity2.this, ids, android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> sgg = ArrayAdapter.createFromResource(PickMarketActivity.this, ids, android.R.layout.simple_spinner_item);
                 sgg.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 seegungoo.setAdapter(sgg);
 
@@ -86,18 +86,24 @@ public class AddMarketActivity2 extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch(v.getId()) {
-                case R.id.market_info:
-                    startActivity(LoginActivity.class);
+                case R.id.searchMarket:
+                    startActivity(PickMarketActivity.class);
                     break;
             }
         }
     };
+
+
+
+
+
 
     private void startActivity(Class c) {
         Intent intent = new Intent(this, c);
