@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity" android:exported="true" />
+        <activity android:name=".JoinActivity" android:exported="true" />
+        <activity android:name=".AddMarketActivity" android:exported="true" />
     </application>
 
 </manifest>
