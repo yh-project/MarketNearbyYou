@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".JoinActivity" android:exported="true" />
-        <activity android:name=".AddMarketActivity" android:exported="true" />
+        <activity android:name=".AddMarketActivity1" android:exported="true" />
+        <activity android:name=".AddMarketActivity2" android:exported="true" />
     </application>
 
 </manifest>

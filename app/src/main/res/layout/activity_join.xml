@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    android:weightSum="10"
-    android:gravity="center">
+    tools:context=".JoinActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MNY"
+        android:textColor="#33529F"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp" />
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="8"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8">
 
             <TextView
                 android:id="@+id/text_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="이메일"
+                android:textColor="#000000"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <EditText
@@ -39,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="닉네임"
+                android:textColor="#000000"
                 app:layout_constraintTop_toBottomOf="@+id/input_email"
                 android:layout_marginTop="20dp"/>
 
@@ -56,6 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="비밀번호"
+                android:textColor="#000000"
                 app:layout_constraintTop_toBottomOf="@+id/input_nickname"
                 android:layout_marginTop="20dp"/>
 
@@ -73,6 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="비밀번호 확인"
+                android:textColor="#000000"
                 app:layout_constraintTop_toBottomOf="@+id/input_pwd"
                 android:layout_marginTop="20dp"/>
 
@@ -86,27 +104,27 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/signup"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:text="회원가입"
-                app:layout_constraintTop_toBottomOf="@id/input_check"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/sendmail"
-                android:layout_marginTop="20dp"/>
-
-            <Button
                 android:id="@+id/sendmail"
-                android:layout_width="130dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="인증메일 전송"
                 app:layout_constraintTop_toBottomOf="@id/input_check"
-                app:layout_constraintStart_toEndOf="@+id/signup"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"/>
+
+            <Button
+                android:id="@+id/join"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="고객 등록"
+                app:layout_constraintTop_toBottomOf="@id/sendmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
