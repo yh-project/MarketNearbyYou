@@ -20,35 +20,53 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="30dp" />
 
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back"
+        app:layout_constraintTop_toTopOf="@+id/logo"
+        app:layout_constraintBottom_toBottomOf="@+id/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/logo"/>
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_marginTop="3dp"/>
 
     <Button
         android:id="@+id/deliveryReserve"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="배달 예약"
+        android:textColor="#ffffff"
+        android:background="@drawable/btn_33529f"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/edit"
-        app:layout_constraintTop_toBottomOf="@+id/logo"/>
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_marginTop="10dp"/>
 
     <Button
         android:id="@+id/edit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="수정 완료"
+        android:textColor="#ffffff"
+        android:background="@drawable/btn_33529f"
         app:layout_constraintStart_toEndOf="@+id/deliveryReserve"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_marginTop="10dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/deliveryReserve"/>
+        app:layout_constraintTop_toBottomOf="@+id/deliveryReserve"
+        android:layout_marginTop="3dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sbList"
