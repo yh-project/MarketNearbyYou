@@ -2,21 +2,31 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="200dp"
+    android:layout_width="250dp"
     android:layout_height="wrap_content"
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="컨텐츠"
+        android:text="가게 이름"
+        android:textSize="15sp"
         android:textColor="#000000"
-        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/when"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="배달 시간"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/finish"
         android:layout_marginTop="10dp"/>
 
     <Button
@@ -28,8 +38,7 @@
         android:background="@drawable/btn_33529f"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/when"
         android:layout_marginTop="30dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
