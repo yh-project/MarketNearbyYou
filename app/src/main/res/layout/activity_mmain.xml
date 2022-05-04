@@ -8,6 +8,7 @@
     tools:context=".CMainActivity">
 
     <TextView
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MNY"
@@ -19,31 +20,65 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="30dp" />
 
-    <Button
-        android:id="@+id/deliveryList"
+    <ImageView
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="배달 일정 관리"
+        android:background="@drawable/back"
+        app:layout_constraintTop_toTopOf="@+id/logo"
+        app:layout_constraintBottom_toBottomOf="@+id/logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/goodsList"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp"/>
-
-    <Button
-        android:id="@+id/goodsList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="상품 관리"
-        app:layout_constraintStart_toEndOf="@+id/deliveryList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginStart="10dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/deliveryList"/>
+        android:background="#33529f"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/deliveryList"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="배달 일정 관리"
+        android:textColor="#ffffff"
+        android:background="@drawable/btn_33529f"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/goodsList"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/goodsList"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="상품 수정"
+        android:textColor="#ffffff"
+        android:background="@drawable/btn_33529f"
+        app:layout_constraintStart_toEndOf="@+id/deliveryList"
+        app:layout_constraintEnd_toStartOf="@+id/addGoods"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/addGoods"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="상품 추가"
+        android:textColor="#ffffff"
+        android:background="@drawable/btn_33529f"
+        app:layout_constraintStart_toEndOf="@+id/goodsList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_marginTop="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#33529f"
+        app:layout_constraintTop_toBottomOf="@+id/deliveryList"
+        android:layout_marginTop="5dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
