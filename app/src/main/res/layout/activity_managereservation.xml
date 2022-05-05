@@ -45,7 +45,7 @@
             android:id="@+id/marketName"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="가게 이름"
+            android:text="예약 없음"
             android:textSize="20sp"
             android:textColor="#000000"
             android:gravity="center"
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="예약 시간"
+            android:text="예약 없음"
             android:textColor="#000000"
             android:textSize="20sp"
             android:gravity="center"

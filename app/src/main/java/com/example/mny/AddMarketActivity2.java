@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddMarketActivity2 extends AppCompatActivity {
 
@@ -24,6 +25,32 @@ public class AddMarketActivity2 extends AppCompatActivity {
         Spinner seedo = findViewById(R.id.seedo);
         Spinner seegungoo = findViewById(R.id.seegungoo);
         TextView tv = findViewById(R.id.selected_address);
+
+        Spinner fromO = findViewById(R.id.fromO);
+        Spinner toO = findViewById(R.id.toO);
+
+        ArrayAdapter<CharSequence> fo = ArrayAdapter.createFromResource(this, R.array.RunTime, android.R.layout.simple_spinner_item);
+        fo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fromO.setAdapter(fo);
+
+        ArrayAdapter<CharSequence> to = ArrayAdapter.createFromResource(this, R.array.RunTime, android.R.layout.simple_spinner_item);
+        to.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        toO.setAdapter(to);
+
+        Spinner from = findViewById(R.id.from);
+        Spinner tos = findViewById(R.id.to);
+        Spinner duration = findViewById(R.id.duration);
+
+        ArrayAdapter<CharSequence> froms = ArrayAdapter.createFromResource(this, R.array.RunTime, android.R.layout.simple_spinner_item);
+        froms.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        from.setAdapter(froms);
+        ArrayAdapter<CharSequence> toss = ArrayAdapter.createFromResource(this, R.array.RunTime, android.R.layout.simple_spinner_item);
+        toss.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tos.setAdapter(toss);
+        ArrayAdapter<CharSequence> durations = ArrayAdapter.createFromResource(this, R.array.Duration, android.R.layout.simple_spinner_item);
+        durations.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        duration.setAdapter(durations);
+
 
         ArrayAdapter<CharSequence> sd = ArrayAdapter.createFromResource(this, R.array.seedo, android.R.layout.simple_spinner_item);
         sd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -99,9 +126,19 @@ public class AddMarketActivity2 extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        TwoPickDialog tpd = new TwoPickDialog(AddMarketActivity2.this, "입력한 내용이 사라집니다.", "확인", "취소");
+        tpd.show();
+    }
+
     private void startActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

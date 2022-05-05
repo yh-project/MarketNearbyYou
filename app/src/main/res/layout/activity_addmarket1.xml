@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="15dp" />
 
     <ImageView
         android:id="@+id/back"
@@ -35,8 +35,8 @@
         android:layout_height="wrap_content"
         android:weightSum="10"
         android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_marginTop="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -54,7 +54,8 @@
             <EditText
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@+id/text_email"
                 android:layout_marginTop="10dp"
@@ -72,7 +73,8 @@
             <EditText
                 android:id="@+id/input_name"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@+id/text_name"
                 android:layout_marginTop="10dp"
@@ -91,7 +93,8 @@
             <EditText
                 android:id="@+id/input_pwd"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@+id/text_pwd"
                 android:layout_marginTop="10dp"
@@ -110,7 +113,8 @@
             <EditText
                 android:id="@+id/input_check"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@+id/text_check"
                 android:layout_marginTop="10dp"
@@ -129,7 +133,8 @@
             <EditText
                 android:id="@+id/input_number"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@+id/text_number"
                 android:layout_marginTop="10dp"
@@ -148,7 +153,7 @@
                 android:layout_marginTop="20dp"/>
 
             <Button
-                android:id="@+id/join"
+                android:id="@+id/market_info"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
                 android:text="상세 정보 입력"

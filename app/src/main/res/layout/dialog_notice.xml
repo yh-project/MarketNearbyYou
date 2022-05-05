@@ -10,7 +10,7 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="컨텐츠"
+        android:text="비어있거나 선택되지 않은\n항목이 있습니다."
         android:textColor="#000000"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"

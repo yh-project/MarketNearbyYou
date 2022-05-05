@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PickMarketActivity extends AppCompatActivity {
     private NoticeDialog ad;
@@ -95,16 +96,27 @@ public class PickMarketActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.searchMarket:
-                    ad = new NoticeDialog(PickMarketActivity.this, "등록된 상품이 없습니다.");
+                    ad = new NoticeDialog(PickMarketActivity.this, "해당 가게에\n등록된 상품이 없습니다.");
                     ad.show();
+                    /*startToast("종류 또는 위치를 지정해주세요.");*/
                     break;
             }
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        TwoPickDialog tpd = new TwoPickDialog(PickMarketActivity.this, "입력한 내용이 사라집니다.", "확인", "취소");
+        tpd.show();
+    }
+
     private void startActivity(Class c) {
         Intent intent = new Intent(this, c);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
