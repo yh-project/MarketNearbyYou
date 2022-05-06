@@ -70,6 +70,30 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"/>
 
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카테고리"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/currentStock"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/maxcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="최대 구매 수"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/category"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"/>
+
     <Button
         android:id="@+id/remove"
         android:layout_width="200dp"
@@ -79,7 +103,7 @@
         android:background="@drawable/btn_33529f"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentStock"
+        app:layout_constraintTop_toBottomOf="@+id/maxcount"
         android:layout_marginTop="30dp" />
 
     <Button
