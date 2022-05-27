@@ -1,31 +1,27 @@
-package com.example.mny;
+package com.example.mny.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.example.mny.R;
+import com.example.mny.TwoPickDialog;
 
-public class MEditProfileActivity2 extends AppCompatActivity {
+public class MEditProfileActivity1 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meditprofile2);
+        setContentView(R.layout.activity_meditprofile1);
 
 
     }
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(MEditProfileActivity2.this, "앱을 종료시키겠습니까?", "종료", "취소");
+        TwoPickDialog tpd = new TwoPickDialog(MEditProfileActivity1.this, "앱을 종료시키겠습니까?", "종료", "취소");
         tpd.show();
     }
 

@@ -2,15 +2,19 @@ package com.example.mny;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.mny.View.LoginActivity;
+
 public class NoticeDialog extends Dialog {
 
-    public NoticeDialog(@NonNull Context context, String content) {
+    public NoticeDialog(@NonNull Context context, String title, String content) {
         super(context);
         setContentView(R.layout.dialog_notice);
 
@@ -22,7 +26,13 @@ public class NoticeDialog extends Dialog {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dismiss();
+                switch (title) {
+                    case "정지!":
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        break;
+                    case "확인":
+                        dismiss();
+                }
             }
         });
     }

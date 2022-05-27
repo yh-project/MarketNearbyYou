@@ -1,4 +1,4 @@
-package com.example.mny;
+package com.example.mny.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.mny.R;
+import com.example.mny.TwoPickDialog;
 
 public class AddMarketActivity2 extends AppCompatActivity {
 

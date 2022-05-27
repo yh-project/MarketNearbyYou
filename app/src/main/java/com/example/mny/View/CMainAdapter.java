@@ -1,4 +1,4 @@
-package com.example.mny;
+package com.example.mny.View;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mny.NoticeDialog;
+import com.example.mny.R;
+import com.example.mny.SBDialog;
 
 import java.util.ArrayList;
 
@@ -74,8 +78,8 @@ class GoodsHolder extends RecyclerView.ViewHolder {
         GR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NoticeDialog nd = new NoticeDialog(view.getContext(), "매진 또는 재고가\n없는 상품입니다.");
-                nd.show();
+                //NoticeDialog nd = new NoticeDialog(view.getContext(), "매진 또는 재고가\n없는 상품입니다.");
+                //nd.show();
             }
         });
     }

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.mny.View.LoginActivity;
+
 public class TwoPickDialog extends Dialog {
 
     public TwoPickDialog(@NonNull Context context, String content, String btn1, String btn2) {

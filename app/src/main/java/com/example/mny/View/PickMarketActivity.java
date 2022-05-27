@@ -1,4 +1,4 @@
-package com.example.mny;
+package com.example.mny.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.mny.NoticeDialog;
+import com.example.mny.R;
+import com.example.mny.TwoPickDialog;
 
 public class PickMarketActivity extends AppCompatActivity {
     private NoticeDialog ad;
@@ -96,8 +100,8 @@ public class PickMarketActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.searchMarket:
-                    ad = new NoticeDialog(PickMarketActivity.this, "해당 가게에\n등록된 상품이 없습니다.");
-                    ad.show();
+                    //ad = new NoticeDialog(PickMarketActivity.this, "해당 가게에\n등록된 상품이 없습니다.");
+                    //ad.show();
                     /*startToast("종류 또는 위치를 지정해주세요.");*/
                     break;
             }
