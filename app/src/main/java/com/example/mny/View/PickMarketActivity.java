@@ -110,8 +110,8 @@ public class PickMarketActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(PickMarketActivity.this, "입력한 내용이 사라집니다.", "확인", "취소");
-        tpd.show();
+        //TwoPickDialog tpd = new TwoPickDialog(PickMarketActivity.this, "입력한 내용이 사라집니다.", "확인", "취소");
+        //tpd.show();
     }
 
     private void startActivity(Class c) {

@@ -1,30 +1,27 @@
 package com.example.mny.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.example.mny.Controller.Join;
 import com.example.mny.Model.Customer;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
 
 public class JoinActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
+
+    Join join_control;
+    String email;
+    String pwd;
+    String check;
+    String nickname;
+    String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +36,13 @@ public class JoinActivity extends AppCompatActivity {
         back.setOnClickListener(onClickListener);
         sendmail.setOnClickListener(onClickListener);
 
-        mAuth = FirebaseAuth.getInstance();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParams.dimAmount = 0.8f;
+        getWindow().setAttributes(layoutParams);
 
+        join_control = new Join(JoinActivity.this);
+        join_control.setType("Customer");
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -48,10 +50,19 @@ public class JoinActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.sendmail:
-                    send_mail();
+                    email = ((EditText)findViewById(R.id.input_email)).getText().toString();
+                    join_control.sendMail(email, findViewById(R.id.sendmail));
                     break;
                 case R.id.join:
-                    join();
+                    if(findViewById(R.id.sendmail).isClickable()) { join_control.startToast("이메일 인증을 먼저 진행해주세요"); }
+                    else {
+                        pwd = ((EditText) findViewById(R.id.input_pwd)).getText().toString();
+                        check = ((EditText) findViewById(R.id.input_check)).getText().toString();
+                        nickname = ((EditText) findViewById(R.id.input_nickname)).getText().toString();
+                        number = ((EditText) findViewById(R.id.input_number)).getText().toString();
+                        join_control.setCustomer(new Customer(email, number, 0, false, nickname));
+                        join_control.signup(pwd, check);
+                    }
                     break;
                 case R.id.back:
                     onBackPressed();
@@ -60,77 +71,9 @@ public class JoinActivity extends AppCompatActivity {
         }
     };
 
-    private void send_mail() {
-        String email = ((EditText)findViewById(R.id.input_email)).getText().toString();
-
-        if(email.length() > 0) {
-            mAuth.createUserWithEmailAndPassword(email, "000000")
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
-                                user = mAuth.getCurrentUser();
-                                if(user != null) {
-                                    user.sendEmailVerification()
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if(task.isSuccessful()) {
-                                                        Log.d("send", "인증메일 전송 완료");
-                                                        startToast("인증 메일을 전송했습니다.");
-                                                    }
-                                                }
-                                            });
-                                }
-                            } else {
-                                if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                    startToast("이메일이 이미 전송되엇습니다");
-                                }
-                                else if (task.getException() != null) {
-                                    startToast(task.getException().toString());
-                                }
-                            }
-                        }
-                    });
-        } else {
-            Log.d("empty", "이메일을 입력해주세요.");
-        }
-    }
-
-    public void join() {
-        String email = ((EditText)findViewById(R.id.input_email)).getText().toString();
-        String nickname = ((EditText)findViewById(R.id.input_nickname)).getText().toString();
-        String pwd = ((EditText)findViewById(R.id.input_pwd)).getText().toString();
-        String pwd_check = ((EditText)findViewById(R.id.input_check)).getText().toString();
-        String number = ((EditText)findViewById(R.id.input_number)).getText().toString();
-
-        if(email.length()>0 && nickname.length()>0 && pwd.length()>0 && pwd_check.length()>0 && number.length()>0) {
-            if(pwd.length()>=6) {
-                if(pwd.equals(pwd_check)) {
-                    user = FirebaseAuth.getInstance().getCurrentUser();
-                    Log.d("user", user.toString());
-                    if(user.isEmailVerified()) {
-                        mAuth.confirmPasswordReset(user.getEmail(), pwd);
-                        //Customer ci = new Customer(email, nickname, number);
-                    } else startToast("이메일 인증이 완료되지 않았습니다.");
-                } else startToast("다른 비밀번호가 입력되었습니다.");
-            } else startToast("비밀번호는 6자 이상 입력해주세요.");
-        } else startToast("비어있는 입력이 있습니다.");
-    }
-
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(JoinActivity.this, "입력한 내용이 사라집니다.", "확인", "취소");
+        TwoPickDialog tpd = new TwoPickDialog(JoinActivity.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class);
         tpd.show();
-    }
-
-    private void startActivity(Class c) {
-        Intent intent = new Intent(this, c);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    private void startToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

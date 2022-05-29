@@ -72,8 +72,8 @@ public class CMainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(CMainActivity.this, "앱을 종료시키겠습니까?", "종료", "취소");
-        tpd.show();
+        //TwoPickDialog tpd = new TwoPickDialog(CMainActivity.this, "앱을 종료시키겠습니까?", "종료", "취소");
+        //tpd.show();
     }
 
     private void startActivity(Class c) {

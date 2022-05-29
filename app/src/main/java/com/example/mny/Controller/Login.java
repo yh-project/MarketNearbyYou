@@ -125,12 +125,6 @@ public class Login implements Control{
     }
 
     @Override
-    public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(context, "앱을 종료시키겠습니까?", "종료", "취소");
-        tpd.show();
-    }
-
-    @Override
     public void makeNotice(String type, String msg) {
         NoticeDialog nd = new NoticeDialog(context, type, msg);
         nd.show();

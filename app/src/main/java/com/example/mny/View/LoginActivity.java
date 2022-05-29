@@ -2,18 +2,14 @@ package com.example.mny.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.mny.Controller.Login;
-import com.example.mny.Model.User;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;
 
@@ -45,19 +41,21 @@ public class LoginActivity extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String email = ((EditText)findViewById(R.id.input_email)).getText().toString();
+            String password = ((EditText)findViewById(R.id.input_pwd)).getText().toString();
+            login_control = new Login(email, password, LoginActivity.this);
             switch(v.getId()) {
                 case R.id.join:
+                    login_control.changePage("Join");
                     break;
                 case R.id.addMarket:
+                    login_control.changePage("AddMarket");
                     break;
                 case R.id.login:
-                    String email = ((EditText)findViewById(R.id.input_email)).getText().toString();
-                    String password = ((EditText)findViewById(R.id.input_pwd)).getText().toString();
-                    login_control = new Login(email, password, LoginActivity.this);
                     login_control.login();
                     break;
                 case R.id.back:
-                    //onBackPressed();
+                    onBackPressed();
                     break;
 
             }
@@ -66,13 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(login_control != null) {
-            Log.d("sibal", "1");
-            login_control.onBackPressed();
-        } else {
-            Log.d("sibal", "2");
-            TwoPickDialog tpd = new TwoPickDialog(LoginActivity.this, "앱을 종료시키겠습니까?", "종료", "취소");
-            tpd.show();
-        }
+        TwoPickDialog tpd = new TwoPickDialog(LoginActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", null);
+        tpd.show();
     }
 }

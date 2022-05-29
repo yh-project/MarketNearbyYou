@@ -13,7 +13,7 @@ import com.example.mny.View.LoginActivity;
 
 public class TwoPickDialog extends Dialog {
 
-    public TwoPickDialog(@NonNull Context context, String content, String btn1, String btn2) {
+    public TwoPickDialog(@NonNull Context context, String content, String btn1, String btn2, Class c) {
         super(context);
         setContentView(R.layout.dialog_twopick);
 
@@ -33,9 +33,10 @@ public class TwoPickDialog extends Dialog {
                         android.os.Process.killProcess(android.os.Process.myPid());
                         break;
                     case "확인":
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        Intent intent = new Intent(getContext(), c);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
+                        break;
                 }
             }
         });

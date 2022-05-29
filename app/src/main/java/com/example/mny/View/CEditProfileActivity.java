@@ -21,8 +21,8 @@ public class CEditProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(CEditProfileActivity.this, "앱을 종료시키겠습니까?", "종료", "취소");
-        tpd.show();
+        //TwoPickDialog tpd = new TwoPickDialog(CEditProfileActivity.this, "앱을 종료시키겠습니까?", "종료", "취소");
+        //tpd.show();
     }
 
     private void startActivity(Class c) {
