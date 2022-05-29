@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.mny.Model.Customer;
+import com.example.mny.Model.Market;
 import com.example.mny.Model.User;
 import com.example.mny.NoticeDialog;
 import com.example.mny.TwoPickDialog;
@@ -97,6 +98,16 @@ public class Login implements Control{
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     loginUser = documentSnapshot.toObject(Customer.class);
+                    if(loginUser.getisBanned()) makeNotice("정지!", "정지된 유저입니다. 종료합니다");
+                    else makeNotice("확인", "하이염");
+                }
+            });
+        } else if(type.equals("Market")) {
+            documentReference = db.collection("Market").document(mAuth.getUid());
+            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    loginUser = documentSnapshot.toObject(Market.class);
                     if(loginUser.getisBanned()) makeNotice("정지!", "정지된 유저입니다. 종료합니다");
                     else makeNotice("확인", "하이염");
                 }

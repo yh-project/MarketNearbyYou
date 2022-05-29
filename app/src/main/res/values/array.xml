@@ -86,7 +86,7 @@
         <item>강화군</item>
         <item>옹진군</item>
     </string-array>
-    <string-array name ="kwangju">
+    <string-array name ="Kwangju">
         <item>서구</item>
         <item>동구</item>
         <item>남구</item>
