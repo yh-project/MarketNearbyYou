@@ -22,12 +22,8 @@ import com.example.mny.TwoPickDialog;
 
 import java.util.ArrayList;
 
-public class CMainActivity extends AppCompatActivity {
-    private CategoryDialog cd;
+public class CMainActivity extends AppCompatActivity implements CategoryDialog.OnClickListener {
     private RecyclerView goodsList;
-    /*private ArrayList<String> names;
-    private ArrayList<String> prices;
-    private ArrayList<String> stocks;*/
     private Market market;
     private CustomerMain customerMain;
 
@@ -50,18 +46,6 @@ public class CMainActivity extends AppCompatActivity {
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
 
-        /*goodsList = findViewById(R.id.goodsList);
-        names = new ArrayList<>();
-        prices = new ArrayList<>();
-        stocks = new ArrayList<>();
-        for(int i=0; i<10; i++) {
-            names.add("과자" + i);
-            prices.add((i*100) + "원");
-            stocks.add("재고 많음");
-        }*/
-        /*goodsList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        goodsList.setAdapter(cMainAdapter);*/
-
         Intent intent = getIntent();
         if((market = (Market)intent.getSerializableExtra("market")) != null) {
             Log.d("성공", market.getMarketname());
@@ -81,6 +65,8 @@ public class CMainActivity extends AppCompatActivity {
                     customerMain.changePage("PickMarket");
                     break;
                 case R.id.pickCategory:
+                    CategoryDialog cd = new CategoryDialog(CMainActivity.this, CMainActivity.this);
+                    cd.show();
                     break;
                 case R.id.back:
                     onBackPressed();
@@ -93,5 +79,10 @@ public class CMainActivity extends AppCompatActivity {
     public void onBackPressed() {
         TwoPickDialog tpd = new TwoPickDialog(CMainActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CMainActivity.class);
         tpd.show();
+    }
+
+    @Override
+    public void OnClicked(String category, String currentStock) {
+        customerMain.pickGoodsCategory(category, currentStock);
     }
 }

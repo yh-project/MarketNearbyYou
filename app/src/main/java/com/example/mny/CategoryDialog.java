@@ -11,13 +11,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.mny.View.PickMarketAdapter;
+
 import java.util.StringTokenizer;
 
 public class CategoryDialog extends Dialog {
 
-    public CategoryDialog(@NonNull Context context) {
+    public interface OnClickListener {
+        void OnClicked(String category, String currentStock);
+    }
+
+    private CategoryDialog.OnClickListener onClickListener;
+
+    public CategoryDialog(@NonNull Context context, OnClickListener onClickListener) {
         super(context);
         setContentView(R.layout.dialog_category);
+        this.onClickListener = onClickListener;
 
         Spinner goodstype = findViewById(R.id.goodsType);
         Spinner currentstock = findViewById(R.id.currentStock);
@@ -55,12 +64,10 @@ public class CategoryDialog extends Dialog {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onClickListener.OnClicked(goodstype.getSelectedItem().toString(), currentstock.getSelectedItem().toString());
                 dismiss();
             }
         });
+
     }
-
-
-
-
 }

@@ -3,8 +3,10 @@ package com.example.mny.Controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 public class CustomerMain implements Control {
 
     private ArrayList<CustomerGoods> goodsList = new ArrayList<CustomerGoods>();
-    private Market selectedMarket;
+    private Market selectedMarket = new Market();
 
     private Context context;
     private RecyclerView goods_List;
@@ -79,8 +81,27 @@ public class CustomerMain implements Control {
         goods_List.setAdapter(cMainAdapter);
     }
 
-    public ArrayList<CustomerGoods> pickGoodsCategory() {
-        return goodsList;
+    public void pickGoodsCategory(String category, String currentStock) {
+        if(selectedMarket.getMarketType() == 0) startToast("선택된 가게가 없습니다");
+        else {
+            mUser = mAuth.getCurrentUser();
+            goodsList.clear();
+            db.collection(selectedMarket.getMarketname()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()) {
+                        for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                            if(category.equals(queryDocumentSnapshot.get("category")) && currentStock.equals(queryDocumentSnapshot.get("currentStock"))) {
+                                CustomerGoods customerGoods = queryDocumentSnapshot.toObject(CustomerGoods.class);
+                                goodsList.add(customerGoods);
+                            }
+                        }
+                        if(goodsList.size() == 0) makeNotice("확인", "상품이 없습니다");
+                        else showList();
+                    } else makeNotice("확인", "상품이 없습니다");
+                }
+            });
+        }
     }
 
     public void changeText() {
@@ -110,7 +131,7 @@ public class CustomerMain implements Control {
 
     @Override
     public void startToast(String msg) {
-
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
