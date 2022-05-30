@@ -1,23 +1,42 @@
 package com.example.mny.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mny.Controller.AddMarket;
+import com.example.mny.Controller.PickMarket;
+import com.example.mny.Model.Market;
 import com.example.mny.NoticeDialog;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;
 
 public class PickMarketActivity extends AppCompatActivity {
+
+    PickMarket pickMarket;
+    CheckBox mart;
+    CheckBox convenience;
+    CheckBox andsome;
+    Spinner seedo;
+    Spinner seegungoo;
+    int marketType = 0;
+
     private NoticeDialog ad;
+    private RecyclerView market_list;
+    private PickMarketAdapter pickMarketAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +46,17 @@ public class PickMarketActivity extends AppCompatActivity {
         Button searchMarket = findViewById(R.id.searchMarket);
         searchMarket.setOnClickListener(onClickListener);
 
-        Spinner seedo = findViewById(R.id.seedo);
-        Spinner seegungoo = findViewById(R.id.seegungoo);
+        market_list = findViewById(R.id.market_list);
+        mart = findViewById(R.id.mart);
+        convenience = findViewById(R.id.convenience);
+        andsome = findViewById(R.id.andsome);
+        seedo = findViewById(R.id.seedo);
+        seegungoo = findViewById(R.id.seegungoo);
         TextView tv = findViewById(R.id.selected_address);
+
+        mart.setOnClickListener(onClickListener);
+        convenience.setOnClickListener(onClickListener);
+        andsome.setOnClickListener(onClickListener);
 
         ArrayAdapter<CharSequence> sd = ArrayAdapter.createFromResource(this, R.array.seedo, android.R.layout.simple_spinner_item);
         sd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -99,10 +126,29 @@ public class PickMarketActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             switch(v.getId()) {
+                case R.id.mart:
+                    convenience.setChecked(false);
+                    andsome.setChecked(false);
+                    marketType = 1;
+                    break;
+                case R.id.convenience:
+                    mart.setChecked(false);
+                    andsome.setChecked(false);
+                    marketType = 2;
+                    break;
+                case R.id.andsome:
+                    mart.setChecked(false);
+                    convenience.setChecked(false);
+                    marketType = 3;
+                    break;
                 case R.id.searchMarket:
-                    //ad = new NoticeDialog(PickMarketActivity.this, "해당 가게에\n등록된 상품이 없습니다.");
-                    //ad.show();
-                    /*startToast("종류 또는 위치를 지정해주세요.");*/
+                    pickMarket = new PickMarket(PickMarketActivity.this, market_list);
+                    if(!mart.isChecked() && !convenience.isChecked() && !andsome.isChecked()) {
+                        marketType = 0;
+                        pickMarket.startToast("검색 조건을 입력해주세요");
+                    } else {
+                        pickMarket.getList(marketType, ((TextView)findViewById(R.id.selected_address)).getText().toString());
+                    }
                     break;
             }
         }
@@ -112,15 +158,5 @@ public class PickMarketActivity extends AppCompatActivity {
     public void onBackPressed() {
         //TwoPickDialog tpd = new TwoPickDialog(PickMarketActivity.this, "입력한 내용이 사라집니다.", "확인", "취소");
         //tpd.show();
-    }
-
-    private void startActivity(Class c) {
-        Intent intent = new Intent(this, c);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    private void startToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

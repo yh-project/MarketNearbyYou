@@ -28,10 +28,10 @@ import java.util.Map;
 
 public class AddMarket implements Control {
 
-    Market user;
-    String type;
-    Context context;
+    private Market user;
+    private String type;
 
+    private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -47,10 +47,12 @@ public class AddMarket implements Control {
     public void setType(String type) {
         this.type = type;
     }
+    public String getType() { return type; }
 
     public void setMarket(Market user) {
         this.user = user;
     }
+    public Market getMarket() { return user; }
 
     public void sendMail(String email, Button button) {
         if(email.length() == 0) { startToast("이메일을 입력해주세요"); }

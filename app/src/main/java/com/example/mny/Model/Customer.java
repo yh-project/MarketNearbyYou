@@ -1,7 +1,7 @@
 package com.example.mny.Model;
 
 public class Customer extends User{
-    String nickname = "";
+    private String nickname = "";
 
     public Customer() {
 

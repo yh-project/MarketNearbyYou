@@ -27,10 +27,10 @@ import java.util.Map;
 
 public class Join implements Control {
 
-    String type;
-    Customer user;
-    Context context;
+    private String type;
+    private Customer user;
 
+    private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -43,14 +43,15 @@ public class Join implements Control {
         this.context = context;
     }
 
+    public String getType() { return type; }
     public void setType(String type) {
         this.type = type;
     }
 
+    public Customer getCustomer() { return user; }
     public void setCustomer(Customer user) {
         this.user = user;
     }
-
 
     public void sendMail(String email, Button button) {
         if(email.length() == 0) { startToast("이메일을 입력해주세요"); }

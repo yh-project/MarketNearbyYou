@@ -13,6 +13,7 @@ import com.example.mny.Model.User;
 import com.example.mny.NoticeDialog;
 import com.example.mny.TwoPickDialog;
 import com.example.mny.View.AddMarketActivity1;
+import com.example.mny.View.CMainActivity;
 import com.example.mny.View.JoinActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,12 +29,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login implements Control{
 
-    String email;
-    String password;
-    String type;
-    User loginUser;
-    Context context;
+    private String email;
+    private String password;
+    private String type;
+    private User loginUser;
 
+    private Context context;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentReference documentReference;
@@ -78,6 +79,7 @@ public class Login implements Control{
         }
     }
 
+    public String getType() { return type; }
     public void setType() {
         documentReference = db.collection("Users").document(mAuth.getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -91,6 +93,12 @@ public class Login implements Control{
 
     }
 
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
     public void getUser(String type) {
         if(type.equals("Customer")) {
             documentReference = db.collection("Customer").document(mAuth.getUid());
@@ -99,7 +107,10 @@ public class Login implements Control{
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     loginUser = documentSnapshot.toObject(Customer.class);
                     if(loginUser.getisBanned()) makeNotice("정지!", "정지된 유저입니다. 종료합니다");
-                    else makeNotice("확인", "하이염");
+                    else {
+                        changePage("CMain");
+                    }
+
                 }
             });
         } else if(type.equals("Market")) {
@@ -109,11 +120,14 @@ public class Login implements Control{
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     loginUser = documentSnapshot.toObject(Market.class);
                     if(loginUser.getisBanned()) makeNotice("정지!", "정지된 유저입니다. 종료합니다");
-                    else makeNotice("확인", "하이염");
+                    else {
+                        changePage("MMain");
+                    }
                 }
             });
         }
     }
+    public void setUser(User loginUser) { this.loginUser = loginUser; }
 
     @Override
     public void changePage(String pageName) {
@@ -127,6 +141,13 @@ public class Login implements Control{
             intent = new Intent(context, AddMarketActivity1.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
+        }
+        else if(pageName.equals("CMain")) {
+            intent = new Intent(context, CMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+        }
+        else if(pageName.equals("MMain")) {
         }
     }
 

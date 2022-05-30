@@ -1,15 +1,17 @@
 package com.example.mny.Model;
 
-public class Market extends User {
-    String marketname;
-    int marketType= 0;
-    String address;
-    String address_detail;
-    String open;
-    String close;
-    String start;
-    String finish;
-    String term;
+import java.io.Serializable;
+
+public class Market extends User implements Serializable {
+    private String marketname;
+    private int marketType= 0;
+    private String address;
+    private String address_detail;
+    private String open;
+    private String close;
+    private String start;
+    private String finish;
+    private String term;
 
     public Market() {
 

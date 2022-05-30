@@ -1,10 +1,10 @@
 package com.example.mny.Model;
 
 public class User {
-    String email = "";
-    String number = "";
-    int banCount = 0;
-    boolean isBanned = false;
+    private String email = "";
+    private String number = "";
+    private int banCount = 0;
+    private boolean isBanned = false;
 
     public User() {
 

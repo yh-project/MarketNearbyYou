@@ -10,21 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mny.Model.CustomerGoods;
 import com.example.mny.NoticeDialog;
 import com.example.mny.R;
 import com.example.mny.SBDialog;
 
 import java.util.ArrayList;
 
-public class CMainAdapter extends RecyclerView.Adapter<GoodsHolder> {
-    private ArrayList<String> names;
-    private ArrayList<String> prices;
-    private ArrayList<String> stocks;
+public class CMainAdapter extends RecyclerView.Adapter<CMainAdapter.GoodsHolder> {
 
-    CMainAdapter(ArrayList<String> names, ArrayList<String> prices, ArrayList<String> stocks) {
-        this.names = names;
-        this.prices = prices;
-        this.stocks = stocks;
+    private ArrayList<CustomerGoods> goodsList;
+
+    public CMainAdapter(ArrayList<CustomerGoods> goodsList) {
+        this.goodsList = goodsList;
     }
 
     @NonNull
@@ -39,57 +37,55 @@ public class CMainAdapter extends RecyclerView.Adapter<GoodsHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull GoodsHolder holder, int position) {
-        holder.onBind(names.get(position), prices.get(position), stocks.get(position));
+        holder.onBind(goodsList.get(position).getName(), goodsList.get(position).getPrice(), goodsList.get(position).getCurrentStock());
     }
 
     @Override
     public int getItemCount() {
-        return names.size();
+        return goodsList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
         return position;
     }
+
+    class GoodsHolder extends RecyclerView.ViewHolder {
+        TextView name;
+        TextView price;
+        TextView currentstock;
+        Button addSB;
+        Button GR;
+
+        public GoodsHolder(@NonNull View itemView) {
+            super(itemView);
+            name = itemView.findViewById(R.id.name);
+            price = itemView.findViewById(R.id.price);
+            currentstock = itemView.findViewById(R.id.currentStock);
+            addSB = itemView.findViewById(R.id.addSB);
+            GR = itemView.findViewById(R.id.GR);
+
+            addSB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            GR.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+        }
+
+        void onBind(String name, int price, String currentstock) {
+            this.name.setText(name);
+            this.price.setText(price + "원");
+            this.currentstock.setText(currentstock);
+        }
+    }
 }
 
-class GoodsHolder extends RecyclerView.ViewHolder {
-    TextView name;
-    TextView price;
-    TextView currentstock;
-    Button addSB;
-    Button GR;
 
-    public GoodsHolder(@NonNull View itemView) {
-        super(itemView);
-        name = itemView.findViewById(R.id.name);
-        price = itemView.findViewById(R.id.price);
-        currentstock = itemView.findViewById(R.id.currentStock);
-        addSB = itemView.findViewById(R.id.addSB);
-        GR = itemView.findViewById(R.id.GR);
-
-        addSB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SBDialog sbd = new SBDialog(view.getContext());
-                sbd.show();
-            }
-        });
-        GR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //NoticeDialog nd = new NoticeDialog(view.getContext(), "매진 또는 재고가\n없는 상품입니다.");
-                //nd.show();
-            }
-        });
-    }
-
-    void onBind(String name, String price, String currentstock) {
-        this.name.setText(name);
-        this.price.setText(price);
-        this.currentstock.setText(currentstock);
-
-    }
-
-}
 
