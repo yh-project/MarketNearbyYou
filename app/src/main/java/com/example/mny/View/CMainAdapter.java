@@ -22,6 +22,7 @@ public class CMainAdapter extends RecyclerView.Adapter<CMainAdapter.GoodsHolder>
 
     public interface onListListener {
         void onItemSelected(String name, String price, String currentStock);
+        void GRlistener(String name, String currentStock, String isReserved);
     }
 
     private CMainAdapter.onListListener listener;
@@ -45,7 +46,7 @@ public class CMainAdapter extends RecyclerView.Adapter<CMainAdapter.GoodsHolder>
 
     @Override
     public void onBindViewHolder(@NonNull GoodsHolder holder, int position) {
-        holder.onBind(goodsList.get(position).getName(), goodsList.get(position).getPrice(), goodsList.get(position).getCurrentStock());
+        holder.onBind(goodsList.get(position).getName(), goodsList.get(position).getPrice(), goodsList.get(position).getCurrentStock(), goodsList.get(position).getStatus());
     }
 
     @Override
@@ -82,15 +83,17 @@ public class CMainAdapter extends RecyclerView.Adapter<CMainAdapter.GoodsHolder>
             GR.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    listener.GRlistener(name.getText().toString(), currentstock.getText().toString(), GR.getText().toString());
+                    if(GR.getText().toString().equals("예약")) GR.setText("예약 완료");
                 }
             });
         }
 
-        void onBind(String name, int price, String currentstock) {
+        void onBind(String name, int price, String currentstock, boolean alreadyReserve) {
             this.name.setText(name);
             this.price.setText(price + "원");
             this.currentstock.setText(currentstock);
+            if(alreadyReserve) GR.setText("예약 완료");
         }
     }
 }

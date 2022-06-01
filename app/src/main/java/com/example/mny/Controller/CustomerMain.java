@@ -27,12 +27,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomerMain implements Control, CMainAdapter.onListListener, SBDialog.SBClickListener {
 
@@ -69,15 +72,27 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
-                    for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                        CustomerGoods customerGoods = queryDocumentSnapshot.toObject(CustomerGoods.class);
-                        goodsList.add(customerGoods);
-                    }
-                    if(goodsList.size() == 0) {
-                        makeNotice("확인", "상품이 없습니다");
-                        changeText();
-                    }
-                    else showList();
+                    db.collection("Customer").document(mUser.getUid()).collection("Reserve").document(getSelectedMarket().getMarketname())
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> tasks) {
+                            Map<String, Object> tmp = new HashMap<>();
+                            tmp = tasks.getResult().getData();
+                            for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                CustomerGoods customerGoods = queryDocumentSnapshot.toObject(CustomerGoods.class);
+                                if(tmp.containsKey(customerGoods.getName())) {
+                                    customerGoods.setStatus(true);
+                                    tmp.put(customerGoods.getName(), customerGoods.getCurrentStock());
+                                    db.collection("Customer").document(mUser.getUid()).collection("Reserve").document(getSelectedMarket().getMarketname()).set(tmp);
+                                }
+                                goodsList.add(customerGoods);
+                            }
+                            if(goodsList.size() == 0) {
+                                makeNotice("확인", "상품이 없습니다");
+                                changeText();
+                            } else showList();
+                        }
+                    });
                 } else changeText();
             }
         });
@@ -128,8 +143,35 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
                 });
     }
 
-    public void reserveGoods() {
-
+    public void reserveGoods(String name, String currentStock, String isReserved) {
+        mUser = mAuth.getCurrentUser();
+        if(!currentStock.equals("재고 없음")) makeNotice("확인", "예약할 수 없는 상품입니다");
+        else if(isReserved.equals("예약 완료")) startToast("이미 예약된 상품입니다");
+        else {
+            DocumentReference documentReference = db.collection("Customer").document(mUser.getUid());
+            documentReference.collection("Reserve").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()) {
+                                Map<String, Object> tmp = new HashMap<>();
+                                if(task.getResult().size() == 0) {
+                                    tmp.put(name, currentStock);
+                                } else {
+                                    for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                        if(queryDocumentSnapshot.getId().equals(getSelectedMarket().getMarketname())) {
+                                            tmp = queryDocumentSnapshot.getData();
+                                            if(!tmp.containsKey(name)) tmp.put(name, currentStock);
+                                            break;
+                                        }
+                                    }
+                                }
+                                documentReference.collection("Reserve").document(getSelectedMarket().getMarketname()).set(tmp);
+                            }
+                        }
+                    });
+            startToast("예약되었습니다");
+        }
     }
 
     public Market getSelectedMarket() { return selectedMarket; }
@@ -169,6 +211,11 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
             SBDialog sbDialog = new SBDialog(context, name, price, currentStock, this);
             sbDialog.show();
         }
+    }
+
+    @Override
+    public void GRlistener(String name, String currentStock, String isReserved) {
+        reserveGoods(name, currentStock, isReserved);
     }
 
     @Override
