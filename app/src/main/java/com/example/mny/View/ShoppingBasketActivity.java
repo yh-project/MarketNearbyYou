@@ -1,59 +1,71 @@
 package com.example.mny.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.mny.Controller.ShoppingBasket;
 import com.example.mny.R;
+import com.example.mny.TwoPickDialog;
 
-import java.util.ArrayList;
 
 public class ShoppingBasketActivity extends AppCompatActivity {
     private RecyclerView sbList;
-    private SBGoodsAdapter sbGoodsAdapter;
-    private ArrayList<String> names;
-    private ArrayList<String> prices;
-    private ArrayList<String> stocks;
+    private String selectedMG;
+    private ShoppingBasket shoppingBasket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shoppingbasket);
 
+        Button deliveryReserve = findViewById(R.id.deliveryReserve);
+        Button edit = findViewById(R.id.edit);
         ImageView back = findViewById(R.id.back);
-
-        names = new ArrayList<>();
-        prices = new ArrayList<>();
-        stocks = new ArrayList<>();
-        for(int i=0; i<10; i++) {
-            names.add("과자" + i+1);
-            prices.add((i*100) + "원");
-            stocks.add(i+1 + "");
-        }
-
         sbList = findViewById(R.id.sbList);
-        sbGoodsAdapter = new SBGoodsAdapter(names, prices, stocks);
-        sbList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        sbList.setAdapter(sbGoodsAdapter);
 
+        deliveryReserve.setOnClickListener(onClickListener);
+        edit.setOnClickListener(onClickListener);
+        back.setOnClickListener(onClickListener);
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParams.dimAmount = 0.8f;
+        getWindow().setAttributes(layoutParams);
+
+        Intent intent = getIntent();
+        if((selectedMG = intent.getStringExtra("newGoods")) != null) {
+            shoppingBasket = new ShoppingBasket(ShoppingBasketActivity.this, selectedMG, sbList);
+            shoppingBasket.getSBList();
+        } else {
+            shoppingBasket = new ShoppingBasket(ShoppingBasketActivity.this, sbList);
+        }
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch(v.getId()) {
+                case R.id.deliveryReserve:
+                    break;
+                case R.id.edit:
+                    break;
+                case R.id.back:
+                    onBackPressed();
+                    break;
             }
         }
     };
 
-    private void startActivity(Class c) {
-        Intent intent = new Intent(this, c);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+    @Override
+    public void onBackPressed() {
+        TwoPickDialog tpd = new TwoPickDialog(ShoppingBasketActivity.this, "메인 화면으로 돌아가시겠습니까?", "확인", "취소", CMainActivity.class);
+        tpd.show();
     }
 }

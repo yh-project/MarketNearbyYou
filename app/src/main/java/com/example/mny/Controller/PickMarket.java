@@ -98,7 +98,6 @@ public class PickMarket implements Control, PickMarketAdapter.OnListItemSelected
     public void onItemSelected(View v, int position) {
         PickMarketAdapter.MarketsHolder marketsHolder = (PickMarketAdapter.MarketsHolder)market_list.findViewHolderForAdapterPosition(position);
         selectedMarket = marketList.get(marketsHolder.getAdapterPosition());
-        Log.d("sibal", selectedMarket.getMarketname());
         changePage("CMain");
     }
 }

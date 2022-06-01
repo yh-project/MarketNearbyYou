@@ -13,26 +13,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mny.Model.CustomerGoods;
+import com.example.mny.Model.Goods;
 import com.example.mny.Model.Market;
 import com.example.mny.NoticeDialog;
 import com.example.mny.R;
+import com.example.mny.SBDialog;
 import com.example.mny.View.CMainAdapter;
 import com.example.mny.View.PickMarketActivity;
 import com.example.mny.View.PickMarketAdapter;
+import com.example.mny.View.ShoppingBasketActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class CustomerMain implements Control {
+public class CustomerMain implements Control, CMainAdapter.onListListener, SBDialog.SBClickListener {
 
     private ArrayList<CustomerGoods> goodsList = new ArrayList<CustomerGoods>();
     private Market selectedMarket = new Market();
+    private String selectedGoods;
 
     private Context context;
     private RecyclerView goods_List;
@@ -53,6 +59,9 @@ public class CustomerMain implements Control {
         this.selectedMarket = selectedMarket;
         this.goods_List = goods_List;
     }
+
+    public String getSelectedGoods() { return this.selectedGoods; }
+    public void setSelectedGoods(String customerGoods) { this.selectedGoods = customerGoods; }
 
     public void getList() {
         mUser = mAuth.getCurrentUser();
@@ -76,7 +85,7 @@ public class CustomerMain implements Control {
     public void setList(ArrayList<CustomerGoods> goodsList) { this.goodsList = goodsList; }
 
     public void showList() {
-        cMainAdapter = new CMainAdapter(goodsList);
+        cMainAdapter = new CMainAdapter(goodsList, this);
         goods_List.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         goods_List.setAdapter(cMainAdapter);
     }
@@ -108,8 +117,15 @@ public class CustomerMain implements Control {
         ((TextView) ((Activity)context).findViewById(R.id.noGoods)).setVisibility(View.VISIBLE);
     }
 
-    public void putShoppingBasket() {
-
+    public void putShoppingBasket(String name) {
+        db.collection(selectedMarket.getMarketname()).document(name).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        setSelectedGoods(documentSnapshot.toObject(Goods.class).getName());
+                        changePage("SBWithData");
+                    }
+                });
     }
 
     public void reserveGoods() {
@@ -126,6 +142,12 @@ public class CustomerMain implements Control {
             intent = new Intent(context, PickMarketActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
+        } else if(pageName.equals("SBWithData")) {
+            intent = new Intent(context, ShoppingBasketActivity.class);
+            String content = selectedMarket.getMarketname() + " " + getSelectedGoods();
+            intent.putExtra("newGoods", content);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
         }
     }
 
@@ -138,5 +160,19 @@ public class CustomerMain implements Control {
     public void makeNotice(String type, String msg) {
         NoticeDialog nd = new NoticeDialog(context, type, msg);
         nd.show();
+    }
+
+    @Override
+    public void onItemSelected(String name, String price, String currentStock) {
+        if(currentStock.equals("재고 없음")) makeNotice("확인", "재고가 없습니다");
+        else {
+            SBDialog sbDialog = new SBDialog(context, name, price, currentStock, this);
+            sbDialog.show();
+        }
+    }
+
+    @Override
+    public void OnClicked(String name) {
+        putShoppingBasket(name);
     }
 }

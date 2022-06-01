@@ -1,6 +1,8 @@
 package com.example.mny.Model;
 
-public class CustomerGoods extends Goods {
+import java.io.Serializable;
+
+public class CustomerGoods extends Goods implements Serializable {
 
     private boolean isReserved;
 

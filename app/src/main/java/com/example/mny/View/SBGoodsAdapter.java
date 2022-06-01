@@ -13,16 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mny.R;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SBGoodsAdapter extends RecyclerView.Adapter<SBHolder> {
-    private ArrayList<String> names;
-    private ArrayList<String> prices;
-    private ArrayList<String> stocks;
+    private Map<String, Object> ginner;
+    private List<Map.Entry<String, Object>> inner;
 
-    SBGoodsAdapter(ArrayList<String> names, ArrayList<String> prices, ArrayList<String> stocks) {
-        this.names = names;
-        this.prices = prices;
-        this.stocks = stocks;
+    SBGoodsAdapter(Map<String, Object> ginner) {
+        this.ginner = ginner;
+        inner = new ArrayList<>(ginner.entrySet());
     }
 
     @NonNull
@@ -31,18 +32,17 @@ public class SBGoodsAdapter extends RecyclerView.Adapter<SBHolder> {
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_sbgoods, parent, false);
-
         return new SBHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SBHolder holder, int position) {
-        holder.onBind(names.get(position), prices.get(position), stocks.get(position));
+        holder.onBind(inner.get(position).getKey(), inner.get(position).getValue().toString());
     }
 
     @Override
     public int getItemCount() {
-        return names.size();
+        return ginner.size();
     }
 
     @Override
@@ -53,29 +53,26 @@ public class SBGoodsAdapter extends RecyclerView.Adapter<SBHolder> {
 
 class SBHolder extends RecyclerView.ViewHolder {
     TextView name;
-    TextView price;
     TextView count;
     Button remove;
 
     public SBHolder(@NonNull View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.name);
-        price = itemView.findViewById(R.id.price);
         count = itemView.findViewById(R.id.count);
         remove = itemView.findViewById(R.id.remove);
 
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
             }
         });
     }
 
-    void onBind(String name, String price, String count) {
+    void onBind(String name, String count) {
         this.name.setText(name);
-        this.price.setText(price);
         this.count.setText(count);
     }
-
 }
 

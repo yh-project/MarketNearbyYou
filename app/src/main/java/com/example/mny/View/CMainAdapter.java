@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mny.Controller.CustomerMain;
 import com.example.mny.Model.CustomerGoods;
 import com.example.mny.NoticeDialog;
 import com.example.mny.R;
@@ -19,10 +20,17 @@ import java.util.ArrayList;
 
 public class CMainAdapter extends RecyclerView.Adapter<CMainAdapter.GoodsHolder> {
 
+    public interface onListListener {
+        void onItemSelected(String name, String price, String currentStock);
+    }
+
+    private CMainAdapter.onListListener listener;
+
     private ArrayList<CustomerGoods> goodsList;
 
-    public CMainAdapter(ArrayList<CustomerGoods> goodsList) {
+    public CMainAdapter(ArrayList<CustomerGoods> goodsList, CMainAdapter.onListListener listener) {
         this.goodsList = goodsList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,7 +58,7 @@ public class CMainAdapter extends RecyclerView.Adapter<CMainAdapter.GoodsHolder>
         return position;
     }
 
-    class GoodsHolder extends RecyclerView.ViewHolder {
+    public class GoodsHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView price;
         TextView currentstock;
@@ -68,7 +76,7 @@ public class CMainAdapter extends RecyclerView.Adapter<CMainAdapter.GoodsHolder>
             addSB.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    listener.onItemSelected(name.getText().toString(), price.getText().toString(), currentstock.getText().toString());
                 }
             });
             GR.setOnClickListener(new View.OnClickListener() {
