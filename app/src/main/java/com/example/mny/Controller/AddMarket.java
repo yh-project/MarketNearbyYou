@@ -138,6 +138,33 @@ public class AddMarket implements Control {
         if(user.getMarketType() == 0 || user.getAddress_detail().length() == 0) startToast("모든 내용을 입력해주세요");
         else {
             db.collection("Market").document(mUser.getUid()).set(user);
+            Map<String, Object> dmap = new HashMap<>();
+            String start = user.getStart();
+            String finish = user.getFinish();
+            int sm;
+            if(start.equals(finish)) {
+                dmap.put(start, "");
+            } else {
+                int term;
+                if(user.getTerm().equals("30분")) term = 30;
+                else term = 0;
+                String[] sarr = start.split(":");
+                String[] farr = finish.split(":");
+                while(!sarr[0].equals(farr[0]) || !sarr[1].equals(farr[1])) {
+                    dmap.put(sarr[0]+":"+sarr[1], "");
+                    if(term == 0) sarr[0] = Integer.toString(Integer.parseInt(sarr[0])+1);
+                    else {
+                        sm = Integer.parseInt(sarr[1]) + 30;
+                        if(sm == 60) {
+                            sarr[1] = "00";
+                            sarr[0] = Integer.toString(Integer.parseInt(sarr[0])+1);
+                        } else if(sm == 30) {
+                            sarr[1] = Integer.toString(sm);
+                        }
+                    }
+                }
+            }
+            db.collection("Delivery").document(user.getMarketname()).set(dmap);
             startToast("가게 등록에 성공했습니다");
             changePage("Login");
         }

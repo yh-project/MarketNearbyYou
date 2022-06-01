@@ -12,16 +12,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mny.R;
+import com.google.rpc.Help;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHolder> {
+
     private Map<String, Map<String, Object>> sb;
     private List<Map.Entry<String, Map<String, Object>>> sbEntry;
-    private int count;
+    private int count = 0;
+    private int chosenMarket = 0;
+    private LinkedList<String> mList = new LinkedList<>();
 
     public SBMarketAdapter(Map<String, Map<String, Object>> sb) {
         this.sb = sb;
@@ -53,6 +58,9 @@ public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHol
         return position;
     }
 
+    public int mSize() { return this.mList.size(); }
+    public LinkedList<String> getMList() { return this.mList; }
+
     class SBMHolder extends RecyclerView.ViewHolder {
         TextView marketName;
         Button choice;
@@ -71,7 +79,13 @@ public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHol
             choice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    if(choice.getText().toString().equals("취소")) {
+                        choice.setText("선택");
+                        mList.remove(marketName.getText().toString());
+                    } else if(choice.getText().toString().equals("선택")){
+                        choice.setText("취소");
+                        mList.add(marketName.getText().toString());
+                    }
                 }
             });
         }

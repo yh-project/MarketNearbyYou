@@ -27,6 +27,7 @@
         <activity android:name=".View.ShoppingBasketActivity" android:exported="true" />
         <activity android:name=".View.CEditProfileActivity" android:exported="true" />
         <activity android:name=".View.MEditProfileActivity1" android:exported="true" />
+        <activity android:name=".View.DeliveryReservationActivity" android:exported="true" />
     </application>
 
 </manifest>

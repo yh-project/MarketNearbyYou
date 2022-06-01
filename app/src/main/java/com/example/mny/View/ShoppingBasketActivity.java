@@ -45,6 +45,7 @@ public class ShoppingBasketActivity extends AppCompatActivity {
             shoppingBasket.getSBList();
         } else {
             shoppingBasket = new ShoppingBasket(ShoppingBasketActivity.this, sbList);
+            shoppingBasket.getSBList();
         }
     }
 
@@ -53,6 +54,7 @@ public class ShoppingBasketActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.deliveryReserve:
+                    shoppingBasket.chooseMarket();
                     break;
                 case R.id.edit:
                     break;
