@@ -35,11 +35,13 @@ public class CMainActivity extends AppCompatActivity implements CategoryDialog.O
         Button pickMarket = findViewById(R.id.pickMarket);
         Button pickCategory = findViewById(R.id.pickCategory);
         ImageView back = findViewById(R.id.back);
+        ImageView profile = findViewById(R.id.profile);
         goodsList = findViewById(R.id.goodsList);
 
         pickMarket.setOnClickListener(onClickListener);
         pickCategory.setOnClickListener(onClickListener);
         back.setOnClickListener(onClickListener);
+        profile.setOnClickListener(onClickListener);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
@@ -71,6 +73,8 @@ public class CMainActivity extends AppCompatActivity implements CategoryDialog.O
                 case R.id.back:
                     onBackPressed();
                     break;
+                case R.id.profile:
+                    customerMain.changePage("Profile");
             }
         }
     };

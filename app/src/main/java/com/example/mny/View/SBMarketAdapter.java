@@ -1,6 +1,7 @@
 package com.example.mny.View;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mny.Controller.ShoppingBasket;
 import com.example.mny.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.rpc.Help;
 
 import java.util.ArrayList;
@@ -27,10 +32,17 @@ public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHol
     private int count = 0;
     private int chosenMarket = 0;
     private LinkedList<String> mList = new LinkedList<>();
+    private SBGoodsAdapter.ManageListener listener;
 
-    public SBMarketAdapter(Map<String, Map<String, Object>> sb) {
+    TextView marketName;
+    Button choice;
+    RecyclerView gList;
+    SBGoodsAdapter sbGoodsAdapter;
+
+    public SBMarketAdapter(Map<String, Map<String, Object>> sb, SBGoodsAdapter.ManageListener listener) {
         this.sb = sb;
         sbEntry = new ArrayList<>(sb.entrySet());
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,6 +56,7 @@ public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHol
 
     @Override
     public void onBindViewHolder(@NonNull SBMHolder holder, int position) {
+        Log.d("과연", ""+sbEntry.size());
         holder.onBind(sbEntry.get(position).getKey());
         count++;
     }
@@ -61,20 +74,16 @@ public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHol
     public int mSize() { return this.mList.size(); }
     public LinkedList<String> getMList() { return this.mList; }
 
-    class SBMHolder extends RecyclerView.ViewHolder {
-        TextView marketName;
-        Button choice;
-        RecyclerView gList;
-        SBGoodsAdapter sbGoodsAdapter;
+    public SBGoodsAdapter getAdapter() { return this.sbGoodsAdapter; }
+
+    class SBMHolder extends RecyclerView.ViewHolder  {
 
         public SBMHolder(@NonNull View itemView) {
             super(itemView);
             marketName = itemView.findViewById(R.id.marketName);
             choice = itemView.findViewById(R.id.choice);
             gList = itemView.findViewById(R.id.gList);
-            sbGoodsAdapter = new SBGoodsAdapter(sbEntry.get(count).getValue());
-            gList.setLayoutManager(new LinearLayoutManager(itemView.getContext(), RecyclerView.VERTICAL, false));
-            gList.setAdapter(sbGoodsAdapter);
+
 
             choice.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,8 +98,11 @@ public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHol
                 }
             });
         }
-        void onBind(String marketName) {
-            this.marketName.setText(marketName);
+        void onBind(String marketNames) {
+            marketName.setText(marketNames);
+            sbGoodsAdapter = new SBGoodsAdapter(sbEntry.get(count).getValue(), marketName.getText().toString(), listener);
+            gList.setLayoutManager(new LinearLayoutManager(itemView.getContext(), RecyclerView.VERTICAL, false));
+            gList.setAdapter(sbGoodsAdapter);
         }
     }
 }

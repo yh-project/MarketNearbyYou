@@ -2,6 +2,7 @@ package com.example.mny.Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import com.example.mny.Model.Market;
 import com.example.mny.NoticeDialog;
 import com.example.mny.View.CMainActivity;
 import com.example.mny.View.DeliveryReservationActivity;
+import com.example.mny.View.SBGoodsAdapter;
 import com.example.mny.View.SBMarketAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,13 +20,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class ShoppingBasket implements Control {
+public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
 
     private Map<String, Map<String, Object>> sb = new HashMap<String, Map<String, Object>>();
     private String selectedMG = "";
@@ -52,13 +57,13 @@ public class ShoppingBasket implements Control {
 
     public void getSBList() {
         sb.clear();
-        Map<String, Object> goods = new HashMap<>();
         String[] arr = getSelectedMG().split(" ");
         mUser = mAuth.getCurrentUser();
         db.collection("Customer").document(mUser.getUid()).collection("SB")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                Map<String, Object> goods = new HashMap<>();
                 if(task.isSuccessful()) {
                     if(task.getResult().size() == 0) {
                         if(arr.length >= 2) {
@@ -69,12 +74,20 @@ public class ShoppingBasket implements Control {
                         } else makeNotice("확인", "장바구니가 비어있습니다");
                     } else {
                         for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                            goods = queryDocumentSnapshot.getData();
                             if(arr.length >= 2) {
                                 if(queryDocumentSnapshot.getId().equals(arr[0]) && queryDocumentSnapshot.getData().containsKey(arr[1])) {
+                                    goods.put(arr[1], queryDocumentSnapshot.getData().get(arr[1]));
                                     makeNotice("확인", "이미 추가된 상품입니다");
+                                } else {
+                                    goods.put(arr[1], 1);
                                 }
+                                sb.put(queryDocumentSnapshot.getId(), goods);
+                                db.collection("Customer").document(mUser.getUid()).collection("SB").document(queryDocumentSnapshot.getId()).set(goods);
+                            } else {
+                                goods = queryDocumentSnapshot.getData();
+                                sb.put(queryDocumentSnapshot.getId(), goods);
                             }
-                            sb.put(queryDocumentSnapshot.getId(), queryDocumentSnapshot.getData());
                         }
                         showList(sb);
                     }
@@ -88,21 +101,127 @@ public class ShoppingBasket implements Control {
     public void setSelectedMG(String selectedMG) { this.selectedMG = selectedMG; }
 
     public void showList(Map<String, Map<String, Object>> sb) {
-        sbMarketAdapter = new SBMarketAdapter(sb);
+        sbMarketAdapter = new SBMarketAdapter(sb, this);
         sbList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         sbList.setAdapter(sbMarketAdapter);
     }
 
-    public void deleteGoods() {
-
+    public void deleteGoods(String marketName, int position) {
+        mUser = mAuth.getCurrentUser();
+        sb.clear();
+        db.collection("Customer").document(mUser.getUid()).collection("SB").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            List<Map.Entry<String, Object>> entry;
+                            String goodsName = "";
+                            for(QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.getId().equals(marketName)) {
+                                    entry = new ArrayList<>(document.getData().entrySet());
+                                    goodsName = entry.get(position).getKey();
+                                }
+                                sb.put(document.getId(), document.getData());
+                            }
+                            sb.get(marketName).remove(goodsName);
+                            showList(sb);
+                            db.collection("Customer").document(mUser.getUid()).collection("SB").document(marketName).set(sb.get(marketName));
+                        }
+                    }
+                });
+        makeNotice("확인", "삭제되었습니다");
     }
 
-    public void upCount() {
-
+    public void upCount(String marketName, int position) {
+        mUser = mAuth.getCurrentUser();
+        Map<String, Map<String, Object>> tmp = new HashMap<>();
+        sb.clear();
+        db.collection(marketName).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot document : task.getResult()) {
+                                sb.put(document.getId(), document.getData());
+                            }
+                            db.collection("Customer").document(mUser.getUid()).collection("SB").get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            String goodsName = "";
+                                            int count = 0;
+                                            List<Map.Entry<String, Object>> entry;
+                                            if(task.isSuccessful()) {
+                                                for(QueryDocumentSnapshot document : task.getResult()) {
+                                                    tmp.put(document.getId(), document.getData());
+                                                    if(document.getId().equals(marketName)) {
+                                                        entry = new ArrayList<>(document.getData().entrySet());
+                                                        goodsName = entry.get(position).getKey();
+                                                        count = Integer.parseInt(entry.get(position).getValue().toString());
+                                                    }
+                                                }
+                                                if(sb.get(goodsName).get("currentStock").equals("재고 없음")) makeNotice("확인", "상품이 매진되었습니다");
+                                                else if(Integer.parseInt(sb.get(goodsName).get("max").toString()) < count+1) makeNotice("확인", "최대 구매 수를 초과하였습니다");
+                                                else {
+                                                    tmp.get(marketName).put(goodsName, count+1);
+                                                    showList(tmp);
+                                                    db.collection("Customer").document(mUser.getUid()).collection("SB").document(marketName).set(tmp.get(marketName));
+                                                }
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
-    public void downCount() {
-
+    public void downCount(String marketName, int position) {
+        mUser = mAuth.getCurrentUser();
+        Map<String, Map<String, Object>> tmp = new HashMap<>();
+        sb.clear();
+        db.collection(marketName).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot document : task.getResult()) {
+                                sb.put(document.getId(), document.getData());
+                            }
+                            db.collection("Customer").document(mUser.getUid()).collection("SB").get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            String goodsName = "";
+                                            int count = 0;
+                                            List<Map.Entry<String, Object>> entry;
+                                            if(task.isSuccessful()) {
+                                                for(QueryDocumentSnapshot document : task.getResult()) {
+                                                    tmp.put(document.getId(), document.getData());
+                                                    if(document.getId().equals(marketName)) {
+                                                        entry = new ArrayList<>(document.getData().entrySet());
+                                                        goodsName = entry.get(position).getKey();
+                                                        count = Integer.parseInt(entry.get(position).getValue().toString());
+                                                    }
+                                                }
+                                                if(sb.get(goodsName).get("currentStock").equals("재고 없음")) makeNotice("확인", "상품이 매진되었습니다");
+                                                else if(count-1 <= 0) makeNotice("확인", "더이상 뺄 수 없습니다");
+                                                else if(Integer.parseInt(sb.get(goodsName).get("max").toString()) < count-1) {
+                                                    tmp.get(marketName).put(goodsName, Integer.parseInt(sb.get(goodsName).get("max").toString()));
+                                                    makeNotice("확인", "최대 구매 수를 초과하였습니다");
+                                                    showList(tmp);
+                                                    db.collection("Customer").document(mUser.getUid()).collection("SB").document(marketName).set(tmp.get(marketName));
+                                                }
+                                                else {
+                                                    tmp.get(marketName).put(goodsName, count-1);
+                                                    showList(tmp);
+                                                    db.collection("Customer").document(mUser.getUid()).collection("SB").document(marketName).set(tmp.get(marketName));
+                                                }
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
     public void reserveDelivery(String marketName) {
@@ -152,10 +271,6 @@ public class ShoppingBasket implements Control {
         else reserveDelivery(sbMarketAdapter.getMList().get(0));
     }
 
-    public void fixInfo() {
-
-    }
-
     @Override
     public void changePage(String pageName) {
         Intent intent;
@@ -180,5 +295,20 @@ public class ShoppingBasket implements Control {
     public void makeNotice(String type, String msg) {
         NoticeDialog nd = new NoticeDialog(context, type, msg);
         nd.show();
+    }
+
+    @Override
+    public void IncreaseListener(String marketName, int position) {
+        upCount(marketName, position);
+    }
+
+    @Override
+    public void ReduceListener(String marketName, int position) {
+        downCount(marketName, position);
+    }
+
+    @Override
+    public void RemoveListener(String marketName, int position) {
+        deleteGoods(marketName, position);
     }
 }

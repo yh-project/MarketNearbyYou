@@ -19,6 +19,7 @@ import com.example.mny.NoticeDialog;
 import com.example.mny.R;
 import com.example.mny.SBDialog;
 import com.example.mny.View.CMainAdapter;
+import com.example.mny.View.CProfileActivity;
 import com.example.mny.View.PickMarketActivity;
 import com.example.mny.View.PickMarketAdapter;
 import com.example.mny.View.ShoppingBasketActivity;
@@ -188,6 +189,10 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
             intent = new Intent(context, ShoppingBasketActivity.class);
             String content = selectedMarket.getMarketname() + " " + getSelectedGoods();
             intent.putExtra("newGoods", content);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+        } else if(pageName.equals("Profile")) {
+            intent = new Intent(context, CProfileActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

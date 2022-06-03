@@ -26,12 +26,10 @@ public class ShoppingBasketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shoppingbasket);
 
         Button deliveryReserve = findViewById(R.id.deliveryReserve);
-        Button edit = findViewById(R.id.edit);
         ImageView back = findViewById(R.id.back);
         sbList = findViewById(R.id.sbList);
 
         deliveryReserve.setOnClickListener(onClickListener);
-        edit.setOnClickListener(onClickListener);
         back.setOnClickListener(onClickListener);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -55,8 +53,6 @@ public class ShoppingBasketActivity extends AppCompatActivity {
             switch(v.getId()) {
                 case R.id.deliveryReserve:
                     shoppingBasket.chooseMarket();
-                    break;
-                case R.id.edit:
                     break;
                 case R.id.back:
                     onBackPressed();
