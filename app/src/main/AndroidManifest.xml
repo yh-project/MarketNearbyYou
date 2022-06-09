@@ -29,6 +29,7 @@
         <activity android:name=".View.MEditProfileActivity1" android:exported="true" />
         <activity android:name=".View.DeliveryReservationActivity" android:exported="true" />
         <activity android:name=".View.CProfileActivity" android:exported="true" />
+        <activity android:name=".View.ManageReservationActivity" android:exported="true" />
     </application>
 
 </manifest>

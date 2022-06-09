@@ -73,7 +73,7 @@ public class JoinActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(JoinActivity.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class);
+        TwoPickDialog tpd = new TwoPickDialog(JoinActivity.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class, this::onBackPressed);
         tpd.show();
     }
 }

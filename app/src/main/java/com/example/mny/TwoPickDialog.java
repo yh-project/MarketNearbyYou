@@ -13,13 +13,20 @@ import com.example.mny.View.LoginActivity;
 
 public class TwoPickDialog extends Dialog {
 
-    public TwoPickDialog(@NonNull Context context, String content, String btn1, String btn2, Class c) {
+    public interface RemoveClickLister {
+        void Deliveryremovelistener();
+    }
+
+    private TwoPickDialog.RemoveClickLister listener;
+
+    public TwoPickDialog(@NonNull Context context, String content, String btn1, String btn2, Class c, RemoveClickLister listener) {
         super(context);
         setContentView(R.layout.dialog_twopick);
 
         TextView contents = findViewById(R.id.content);
         Button b1 = findViewById(R.id.btn1);
         Button b2 = findViewById(R.id.btn2);
+        this.listener = listener;
 
         contents.setText(content);
         b1.setText(btn1);
@@ -37,6 +44,10 @@ public class TwoPickDialog extends Dialog {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
                         break;
+                    case "삭제":
+                        listener.Deliveryremovelistener();
+                        dismiss();
+                        break;
                 }
             }
         });
@@ -49,7 +60,6 @@ public class TwoPickDialog extends Dialog {
                         dismiss();
                         break;
                 }
-
             }
         });
     }

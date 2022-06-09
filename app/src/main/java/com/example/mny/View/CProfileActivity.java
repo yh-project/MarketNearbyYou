@@ -1,35 +1,22 @@
 package com.example.mny.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mny.CategoryDialog;
-import com.example.mny.Controller.CustomerMain;
 import com.example.mny.Model.Customer;
-import com.example.mny.Model.Market;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 public class CProfileActivity extends AppCompatActivity {
 
@@ -77,11 +64,15 @@ public class CProfileActivity extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Intent intent;
             switch(v.getId()) {
                 case R.id.MR:
+                    intent = new Intent(getApplicationContext(), ManageReservationActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     break;
                 case R.id.SB:
-                    Intent intent = new Intent(getApplicationContext(), ShoppingBasketActivity.class);
+                    intent = new Intent(getApplicationContext(), ShoppingBasketActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     break;
@@ -98,7 +89,7 @@ public class CProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(CProfileActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CProfileActivity.class);
+        TwoPickDialog tpd = new TwoPickDialog(CProfileActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CProfileActivity.class, this::onBackPressed);
         tpd.show();
     }
 }

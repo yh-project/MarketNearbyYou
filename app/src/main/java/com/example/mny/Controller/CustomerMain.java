@@ -81,10 +81,12 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
                             tmp = tasks.getResult().getData();
                             for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
                                 CustomerGoods customerGoods = queryDocumentSnapshot.toObject(CustomerGoods.class);
-                                if(tmp.containsKey(customerGoods.getName())) {
-                                    customerGoods.setStatus(true);
-                                    tmp.put(customerGoods.getName(), customerGoods.getCurrentStock());
-                                    db.collection("Customer").document(mUser.getUid()).collection("Reserve").document(getSelectedMarket().getMarketname()).set(tmp);
+                                if(tmp != null) {
+                                    if(tmp.containsKey(customerGoods.getName())) {
+                                        customerGoods.setStatus(true);
+                                        tmp.put(customerGoods.getName(), customerGoods.getCurrentStock());
+                                        db.collection("Customer").document(mUser.getUid()).collection("Reserve").document(getSelectedMarket().getMarketname()).set(tmp);
+                                    }
                                 }
                                 goodsList.add(customerGoods);
                             }

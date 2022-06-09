@@ -18,6 +18,7 @@ public class DeliveryReservationActivity extends AppCompatActivity {
 
     private String marketName = "";
     private DeliveryReservation deliveryReservation;
+    private String type = "";
 
     private RecyclerView deliveryList;
     private Button reserve;
@@ -39,7 +40,10 @@ public class DeliveryReservationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if(!(marketName = intent.getStringExtra("name")).equals("")) {
-            deliveryReservation = new DeliveryReservation(DeliveryReservationActivity.this, deliveryList);
+            String[] contents = marketName.split("///");
+            marketName = contents[0];
+            type = contents[1];
+            deliveryReservation = new DeliveryReservation(DeliveryReservationActivity.this, deliveryList, type);
             deliveryReservation.setMarketName(marketName);
             deliveryReservation.getTimeList();
         } else {
@@ -63,7 +67,7 @@ public class DeliveryReservationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(DeliveryReservationActivity.this, "메인 화면으로 돌아가시겠습니까?", "확인", "취소", CMainActivity.class);
+        TwoPickDialog tpd = new TwoPickDialog(DeliveryReservationActivity.this, "메인 화면으로 돌아가시겠습니까?", "확인", "취소", CMainActivity.class, this::onBackPressed);
         tpd.show();
     }
 }

@@ -280,7 +280,7 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
             context.startActivity(intent);
         } else {
             intent = new Intent(context, DeliveryReservationActivity.class);
-            intent.putExtra("name", pageName);
+            intent.putExtra("name", pageName + "///Customer");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

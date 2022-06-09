@@ -3,6 +3,7 @@ package com.example.mny.Controller;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +31,7 @@ public class DeliveryReservation implements Control {
     private String pickedTime;
     private boolean isPicked;
     private String marketName;
+    private String type;
 
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -45,9 +47,10 @@ public class DeliveryReservation implements Control {
     public DeliveryReservation(Context context) {
         this.context = context;
     }
-    public DeliveryReservation(Context context, RecyclerView tList) {
+    public DeliveryReservation(Context context, RecyclerView tList, String type) {
         this.context = context;
         this.tList = tList;
+        this.type = type;
     }
 
     public void getTimeList() {
@@ -108,6 +111,15 @@ public class DeliveryReservation implements Control {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Customer customer = documentSnapshot.toObject(Customer.class);
+                        if(tmp.containsValue(customer.getNickname())) {
+                            List<Map.Entry<String, Object>> entry = new ArrayList<>(tmp.entrySet());
+                            for(int i=0; i<entry.size(); i++) {
+                                if(entry.get(i).getValue().equals(customer.getNickname())) {
+                                    String time = entry.get(i).getKey();
+                                    tmp.put(time, "");
+                                }
+                            }
+                        }
                         tmp.put(getPickedTime(), customer.getNickname());
                         db.collection("Delivery").document(getMarketName()).set(tmp);
                         DeliveryData deliveryData = new DeliveryData();
@@ -146,7 +158,7 @@ public class DeliveryReservation implements Control {
 
     @Override
     public void startToast(String msg) {
-
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

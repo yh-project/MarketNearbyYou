@@ -12,8 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mny.Model.Customer;
 import com.example.mny.Model.DeliveryData;
 import com.example.mny.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.rpc.Help;
 
 import java.util.ArrayList;
@@ -26,6 +32,9 @@ public class DeliveryReservationAdapter extends RecyclerView.Adapter<DeliveryRes
 
     private ArrayList<DeliveryData> timeList;
     private LinkedList<String> pickedList = new LinkedList<>();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser mUser;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public DeliveryReservationAdapter(ArrayList<DeliveryData> timeList) {
         this.timeList = timeList;
@@ -62,6 +71,7 @@ public class DeliveryReservationAdapter extends RecyclerView.Adapter<DeliveryRes
         TextView when;
         TextView reserved;
         CheckBox isReserved;
+        String currentNick;
 
         public DRHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,17 +86,29 @@ public class DeliveryReservationAdapter extends RecyclerView.Adapter<DeliveryRes
                     else pickedList.remove(when.getText().toString());
                 }
             });
-
         }
         void onBind(String time, String nickname) {
+            mUser = mAuth.getCurrentUser();
+            db.collection("Customer").document(mUser.getUid()).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Customer customer = documentSnapshot.toObject(Customer.class);
+                            if(nickname.equals(customer.getNickname())) {
+                                reserved.setText("예약 가능");
+                                isReserved.setVisibility(View.VISIBLE);
+                            } else {
+                                if(!nickname.equals("")) {
+                                    reserved.setText("예약 중");
+                                    isReserved.setVisibility(View.INVISIBLE);
+                                } else {
+                                    reserved.setText("예약 가능");
+                                    isReserved.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                    });
             when.setText(time);
-            if(!nickname.equals("")) {
-                reserved.setText("예약 중");
-                isReserved.setVisibility(View.INVISIBLE);
-            } else {
-                reserved.setText("예약 가능");
-                isReserved.setVisibility(View.VISIBLE);
-            }
         }
     }
 }

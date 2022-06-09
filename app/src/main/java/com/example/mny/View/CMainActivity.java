@@ -81,7 +81,7 @@ public class CMainActivity extends AppCompatActivity implements CategoryDialog.O
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(CMainActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CMainActivity.class);
+        TwoPickDialog tpd = new TwoPickDialog(CMainActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CMainActivity.class, this::onBackPressed);
         tpd.show();
     }
 
