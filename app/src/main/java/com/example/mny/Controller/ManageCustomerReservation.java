@@ -35,6 +35,7 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
     private Context context;
     private RecyclerView reservedList;
     private TextView marketName;
+
     private TextView time;
     private ReservedMarketsAdapter reservedMarketsAdapter;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -139,7 +140,7 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
         Intent intent;
         if(pageName.equals("Delivery")) {
             intent = new Intent(context, DeliveryReservationActivity.class);
-            intent.putExtra("name", marketName.getText().toString() + "///Customer");
+            intent.putExtra("name", marketName.getText().toString() + "///Customer/// ");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         } else if(pageName.equals("Profile")) {

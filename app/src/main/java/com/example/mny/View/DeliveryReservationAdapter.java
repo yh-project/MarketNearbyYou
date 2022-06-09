@@ -1,6 +1,7 @@
 package com.example.mny.View;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.mny.Model.Customer;
 import com.example.mny.Model.DeliveryData;
 import com.example.mny.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,12 +34,17 @@ public class DeliveryReservationAdapter extends RecyclerView.Adapter<DeliveryRes
 
     private ArrayList<DeliveryData> timeList;
     private LinkedList<String> pickedList = new LinkedList<>();
+    private String type;
+    private String target;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public DeliveryReservationAdapter(ArrayList<DeliveryData> timeList) {
+    public DeliveryReservationAdapter(ArrayList<DeliveryData> timeList, String type, String target) {
         this.timeList = timeList;
+        this.type = type;
+        this.target = target;
+        Log.d("sibal", target);
     }
 
     @NonNull
@@ -89,25 +96,40 @@ public class DeliveryReservationAdapter extends RecyclerView.Adapter<DeliveryRes
         }
         void onBind(String time, String nickname) {
             mUser = mAuth.getCurrentUser();
-            db.collection("Customer").document(mUser.getUid()).get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Customer customer = documentSnapshot.toObject(Customer.class);
-                            if(nickname.equals(customer.getNickname())) {
-                                reserved.setText("예약 가능");
-                                isReserved.setVisibility(View.VISIBLE);
-                            } else {
-                                if(!nickname.equals("")) {
-                                    reserved.setText("예약 중");
-                                    isReserved.setVisibility(View.INVISIBLE);
-                                } else {
+            if(type.equals("Customer")) {
+                db.collection("Customer").document(mUser.getUid()).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Customer customer = documentSnapshot.toObject(Customer.class);
+                                if(nickname.equals(customer.getNickname())) {
                                     reserved.setText("예약 가능");
                                     isReserved.setVisibility(View.VISIBLE);
+                                } else {
+                                    if(!nickname.equals("")) {
+                                        reserved.setText("예약 중");
+                                        isReserved.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        reserved.setText("예약 가능");
+                                        isReserved.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+            } else if(type.equals("Market")) {
+                if(nickname.equals(target)) {
+                    reserved.setText("예약 가능");
+                    isReserved.setVisibility(View.VISIBLE);
+                } else {
+                    if(!nickname.equals("")) {
+                        reserved.setText("예약 중");
+                        isReserved.setVisibility(View.INVISIBLE);
+                    } else {
+                        reserved.setText("예약 가능");
+                        isReserved.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
             when.setText(time);
         }
     }

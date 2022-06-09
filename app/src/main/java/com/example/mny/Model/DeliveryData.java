@@ -2,9 +2,10 @@ package com.example.mny.Model;
 
 import com.example.mny.Controller.Control;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DeliveryData {
+public class DeliveryData implements Serializable {
 
     private String time;
     private String nickname = "";

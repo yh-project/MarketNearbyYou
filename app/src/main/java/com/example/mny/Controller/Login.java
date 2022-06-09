@@ -15,6 +15,7 @@ import com.example.mny.TwoPickDialog;
 import com.example.mny.View.AddMarketActivity1;
 import com.example.mny.View.CMainActivity;
 import com.example.mny.View.JoinActivity;
+import com.example.mny.View.MMainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -148,6 +149,9 @@ public class Login implements Control{
             context.startActivity(intent);
         }
         else if(pageName.equals("MMain")) {
+            intent = new Intent(context, MMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
         }
     }
 

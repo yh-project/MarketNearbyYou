@@ -19,6 +19,7 @@ public class DeliveryReservationActivity extends AppCompatActivity {
     private String marketName = "";
     private DeliveryReservation deliveryReservation;
     private String type = "";
+    private String target = "";
 
     private RecyclerView deliveryList;
     private Button reserve;
@@ -43,7 +44,8 @@ public class DeliveryReservationActivity extends AppCompatActivity {
             String[] contents = marketName.split("///");
             marketName = contents[0];
             type = contents[1];
-            deliveryReservation = new DeliveryReservation(DeliveryReservationActivity.this, deliveryList, type);
+            target = contents[2];
+            deliveryReservation = new DeliveryReservation(DeliveryReservationActivity.this, deliveryList, type, target);
             deliveryReservation.setMarketName(marketName);
             deliveryReservation.getTimeList();
         } else {
