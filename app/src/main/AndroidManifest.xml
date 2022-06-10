@@ -32,6 +32,8 @@
         <activity android:name=".View.ManageReservationActivity" android:exported="true" />
         <activity android:name=".View.MMainActivity" android:exported="true" />
         <activity android:name=".View.ManageDeliveryActivity" android:exported="true" />
+        <activity android:name=".View.ManageGoodsActivity" android:exported="true" />
+        <activity android:name=".View.AddGoodsActivity" android:exported="true" />
     </application>
 
 </manifest>

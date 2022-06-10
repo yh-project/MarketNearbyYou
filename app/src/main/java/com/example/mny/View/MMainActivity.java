@@ -3,6 +3,7 @@ package com.example.mny.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ public class MMainActivity extends AppCompatActivity{
     private Button addGoods;
     private RecyclerView list;
     private MarketMain marketMain;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,10 @@ public class MMainActivity extends AppCompatActivity{
                     marketMain.getReservedList();
                     break;
                 case R.id.goodsList:
+                    marketMain.getGoodsList();
                     break;
                 case R.id.addGoods:
+                    marketMain.changePage("Add");
                     break;
                 case R.id.back:
                     onBackPressed();

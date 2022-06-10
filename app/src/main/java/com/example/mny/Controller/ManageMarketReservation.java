@@ -46,7 +46,7 @@ public class ManageMarketReservation implements Control, TwoPickDialog.RemoveCli
     }
 
     public void changeReservation() {
-        changePage("doraemi");
+        changePage("DR");
     }
 
     @Override

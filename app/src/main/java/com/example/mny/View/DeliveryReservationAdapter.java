@@ -44,7 +44,6 @@ public class DeliveryReservationAdapter extends RecyclerView.Adapter<DeliveryRes
         this.timeList = timeList;
         this.type = type;
         this.target = target;
-        Log.d("sibal", target);
     }
 
     @NonNull

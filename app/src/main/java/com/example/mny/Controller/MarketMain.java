@@ -1,6 +1,7 @@
 package com.example.mny.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,9 @@ import com.example.mny.Model.DeliveryData;
 import com.example.mny.Model.Goods;
 import com.example.mny.Model.Market;
 import com.example.mny.NoticeDialog;
+import com.example.mny.View.AddGoodsActivity;
 import com.example.mny.View.ManageDeliveryListAdapter;
+import com.example.mny.View.ManageGoodsListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,11 +34,12 @@ import java.util.Map;
 public class MarketMain implements Control {
 
     private ArrayList<DeliveryData> reservedList = new ArrayList<>();
-    private ArrayList<Goods> goodsList;
+    private ArrayList<Goods> goodsList = new ArrayList<>();
 
     private Context context;
     private RecyclerView list;
     private ManageDeliveryListAdapter manageDeliveryListAdapter;
+    private ManageGoodsListAdapter manageGoodsListAdapter;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -49,6 +55,7 @@ public class MarketMain implements Control {
 
     public void getReservedList() {
         mUser = mAuth.getCurrentUser();
+        reservedList.clear();
         db.collection("Market").document(mUser.getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -100,15 +107,43 @@ public class MarketMain implements Control {
         list.setAdapter(manageDeliveryListAdapter);
     }
 
-    public ArrayList<Goods> getGoodsList() { return goodsList; }
+    public void getGoodsList() {
+        mUser = mAuth.getCurrentUser();
+        goodsList.clear();
+        db.collection("Market").document(mUser.getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Market market = documentSnapshot.toObject(Market.class);
+                db.collection(market.getMarketname())
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                                Goods goods = queryDocumentSnapshot.toObject(Goods.class);
+                                goodsList.add(goods);
+                            }
+                            showGoodsList();
+                        }
+                    }
+                });
+            }
+        });
+    }
     public void setGoodsList(ArrayList<Goods> goodsList) { this.goodsList = goodsList; }
     public void showGoodsList() {
-
+        manageGoodsListAdapter = new ManageGoodsListAdapter(goodsList, context);
+        list.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+        list.setAdapter(manageGoodsListAdapter);
     }
 
     @Override
     public void changePage(String pageName) {
-
+        Intent intent;
+        intent = new Intent(context, AddGoodsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
 
     @Override
