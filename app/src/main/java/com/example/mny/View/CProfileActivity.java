@@ -67,18 +67,22 @@ public class CProfileActivity extends AppCompatActivity {
             Intent intent;
             switch(v.getId()) {
                 case R.id.MR:
-                    intent = new Intent(getApplicationContext(), ManageReservationActivity.class);
+                    intent = new Intent(CProfileActivity.this, ManageReservationActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     break;
                 case R.id.SB:
-                    intent = new Intent(getApplicationContext(), ShoppingBasketActivity.class);
+                    intent = new Intent(CProfileActivity.this, ShoppingBasketActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     break;
                 case R.id.editprofile:
                     break;
                 case R.id.report:
+                    intent = new Intent(CProfileActivity.this, ReportActivity.class);
+                    intent.putExtra("type", "Customer");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     break;
                 case R.id.back:
                     onBackPressed();
