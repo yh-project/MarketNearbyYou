@@ -3,7 +3,6 @@ package com.example.mny.Controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -28,14 +27,17 @@ import java.util.Map;
 
 public class AddMarket implements Control {
 
+    /* 필요 요소 */
     private Market user;
     private String type;
 
+    /* 구현 상의 요구되는 요소 */
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public AddMarket() {
 
     }
@@ -44,16 +46,13 @@ public class AddMarket implements Control {
         this.context = context;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-    public String getType() { return type; }
+    /* 유저 타입 지정 */
+    public void setType(String type) { this.type = type; }
 
-    public void setMarket(Market user) {
-        this.user = user;
-    }
-    public Market getMarket() { return user; }
+    /* 입력된 정보의 Market 생성 */
+    public void setMarket(Market user) { this.user = user; }
 
+    /* 인증 메일 전송 */
     public void sendMail(String email, Button button) {
         if(email.length() == 0) { startToast("이메일을 입력해주세요"); }
         else {
@@ -62,13 +61,11 @@ public class AddMarket implements Control {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Log.d("성공", "회원가입 성공");
                                 mUser = mAuth.getCurrentUser();
                                 mUser.sendEmailVerification()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Log.d("성공", "전송 완료");
                                                 startToast("인증메일을 전송했습니다");
                                                 button.setClickable(false);
                                             }
@@ -76,7 +73,6 @@ public class AddMarket implements Control {
                             } else {
                                 if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                     startToast("중복된 이메일입니다");
-                                    Log.d("실패", "중복");
                                 }
                             }
                         }
@@ -84,10 +80,10 @@ public class AddMarket implements Control {
         }
     }
 
+    /* 메일 인증 확인 && 기본적인 정보 저장 */
     public void isCheckedMail(String pwd, String check) {
         mUser.reload();
         if(mUser.isEmailVerified()) {
-            Log.d("성공", "인증 완료");
             if(user.getNumber().length() == 0 || user.getMarketname().length() == 0) startToast("모든 내용을 입력해주세요");
             else if(pwd.length() < 6 || check.length() < 6) startToast("비밀번호는 6자 이상입니다");
             else if(!pwd.equals(check)) startToast("서로 다른 비밀번호입니다");
@@ -103,7 +99,6 @@ public class AddMarket implements Control {
                             typeList.put("type", type);
                             if (nameList.containsKey(user.getMarketname())) {
                                 startToast("중복된 가게명입니다");
-                                Log.d("실패", "중복된 가게명입니다");
                             } else {
                                 mUser.updatePassword(pwd)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -114,10 +109,7 @@ public class AddMarket implements Control {
                                                     db.collection("Market").document(mUser.getUid()).set(user);
                                                     nameList.put(user.getMarketname(), user.getMarketname());
                                                     db.collection("Info").document("storename").update(nameList);
-                                                    Log.d("성공", "비밀번호 설정 성공");
                                                     changePage("Detail");
-                                                } else {
-                                                    Log.d("실패", "비밀번호 설정 실패");
                                                 }
                                             }
                                         });
@@ -127,11 +119,11 @@ public class AddMarket implements Control {
                 });
             }
         } else {
-            Log.d("실패", "인증 미완료");
             startToast("이메일 인증을 완료해주세요");
         }
     }
 
+    /* 최종 회원가입 절차 진행 */
     public void signup() {
         db = FirebaseFirestore.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -170,6 +162,7 @@ public class AddMarket implements Control {
         }
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;

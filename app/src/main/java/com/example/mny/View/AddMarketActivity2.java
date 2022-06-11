@@ -25,25 +25,26 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddMarketActivity2 extends AppCompatActivity {
 
-    AddMarket addMarket2_control;
-    Market user;
-    int marketType;
+    private AddMarket addMarket2_control;
+    private Market user;
+    private int marketType;
 
-    Button addmarket;
-    CheckBox mart;
-    CheckBox convenience;
-    CheckBox andsome;
-    Spinner seedo;
-    Spinner seegungoo;
-    Spinner fromO;
-    Spinner toO;
-    Spinner from;
-    Spinner tos;
-    Spinner duration;
+    private Button addmarket;
+    private CheckBox mart;
+    private CheckBox convenience;
+    private CheckBox andsome;
+    private Spinner seedo;
+    private Spinner seegungoo;
+    private Spinner fromO;
+    private Spinner toO;
+    private Spinner from;
+    private Spinner tos;
+    private Spinner duration;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser mUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,7 +206,7 @@ public class AddMarketActivity2 extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(AddMarketActivity2.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class, this::onBackPressed, null);
+        TwoPickDialog tpd = new TwoPickDialog(AddMarketActivity2.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class, null, null);
         tpd.show();
     }
 }

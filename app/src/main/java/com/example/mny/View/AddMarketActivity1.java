@@ -16,12 +16,12 @@ import com.example.mny.TwoPickDialog;
 
 public class AddMarketActivity1 extends AppCompatActivity {
 
-    AddMarket addMarket_control;
-    String email;
-    String pwd;
-    String check;
-    String name;
-    String number;
+    private AddMarket addMarket_control;
+    private String email;
+    private String pwd;
+    private String check;
+    private String name;
+    private String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class AddMarketActivity1 extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(AddMarketActivity1.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class, this::onBackPressed, null);
+        TwoPickDialog tpd = new TwoPickDialog(AddMarketActivity1.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class, null, null);
         tpd.show();
     }
 
