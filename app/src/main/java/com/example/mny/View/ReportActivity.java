@@ -9,23 +9,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.mny.Controller.Report;
-import com.example.mny.Model.Customer;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ReportActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser mUser;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private EditText input_names;
     private EditText input_contents;
     private Button report;
@@ -50,7 +40,6 @@ public class ReportActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
-        Log.d("type", type);
 
     }
 
@@ -59,7 +48,6 @@ public class ReportActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.report:
-                    Log.d("sibla", "sibal");
                     reports = new Report(ReportActivity.this, input_names.getText().toString(), input_contents.getText().toString(), type);
                     reports.report();
                     break;

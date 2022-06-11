@@ -12,9 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.example.mny.Controller.ManageGoods;
 import com.example.mny.Controller.UpdateGoods;
 import com.example.mny.Model.Goods;
 import com.example.mny.R;
@@ -96,7 +94,6 @@ public class AddGoodsActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.update:
-                    Log.d("sibla", "??");
                     Goods after = new Goods();
                     after.setName(input_name.getText().toString());
                     after.setCategory(input_goodstype.getSelectedItem().toString());

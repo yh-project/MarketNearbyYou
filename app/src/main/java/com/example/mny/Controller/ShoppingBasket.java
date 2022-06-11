@@ -2,13 +2,11 @@ package com.example.mny.Controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mny.Model.Market;
 import com.example.mny.NoticeDialog;
 import com.example.mny.View.CMainActivity;
 import com.example.mny.View.DeliveryReservationActivity;
@@ -20,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -31,9 +28,11 @@ import java.util.Map;
 
 public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
 
+    /* 필요 요소 */
     private Map<String, Map<String, Object>> sb = new HashMap<String, Map<String, Object>>();
     private String selectedMG = "";
 
+    /* 구형 상에 요구되는 요소 */
     private Context context;
     private RecyclerView sbList;
     private SBMarketAdapter sbMarketAdapter;
@@ -41,10 +40,10 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public ShoppingBasket() {
 
     }
-
     public ShoppingBasket(Context context, RecyclerView sbList) {
         this.context = context;
         this.sbList = sbList;
@@ -55,6 +54,7 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
         this.sbList = sbList;
     }
 
+    /* 장바구니 목록 */
     public void getSBList() {
         sb.clear();
         String[] arr = getSelectedMG().split(" ");
@@ -95,17 +95,18 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
             }
         });
     }
-    public void setSBList(Map<String, Map<String, Object>> sb) { this.sb = sb; }
 
+    /* 선택된 가게와 상품 */
     public String getSelectedMG() { return selectedMG; }
-    public void setSelectedMG(String selectedMG) { this.selectedMG = selectedMG; }
 
+    /* 장바구니 상품 목록 디스플레이 */
     public void showList(Map<String, Map<String, Object>> sb) {
         sbMarketAdapter = new SBMarketAdapter(sb, this);
         sbList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         sbList.setAdapter(sbMarketAdapter);
     }
 
+    /* 상품 삭제 */
     public void deleteGoods(String marketName, int position) {
         mUser = mAuth.getCurrentUser();
         sb.clear();
@@ -132,6 +133,7 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
         makeNotice("확인", "삭제되었습니다");
     }
 
+    /* 갯수 +1 */
     public void upCount(String marketName, int position) {
         mUser = mAuth.getCurrentUser();
         Map<String, Map<String, Object>> tmp = new HashMap<>();
@@ -175,6 +177,7 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
                 });
     }
 
+    /* 갯수 -1 */
     public void downCount(String marketName, int position) {
         mUser = mAuth.getCurrentUser();
         Map<String, Map<String, Object>> tmp = new HashMap<>();
@@ -224,6 +227,7 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
                 });
     }
 
+    /* 배달 예약 */
     public void reserveDelivery(String marketName) {
         mUser = mAuth.getCurrentUser();
         db.collection("Customer").document(mUser.getUid()).collection("Delivery")
@@ -265,12 +269,14 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
         });
     }
 
+    /* 배달예약 가게 선택 */
     public void chooseMarket() {
         if(sbMarketAdapter.mSize() == 0) makeNotice("확인", "선택된 가게가 없습니다");
         else if(sbMarketAdapter.mSize() >= 2) makeNotice("확인", "한번에 하나의 가게만 배달 가능합니다");
         else reserveDelivery(sbMarketAdapter.getMList().get(0));
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;
@@ -297,6 +303,7 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
         nd.show();
     }
 
+    /* 각종 버튼 클릭 리스너 구현 부 */
     @Override
     public void IncreaseListener(String marketName, int position) {
         upCount(marketName, position);

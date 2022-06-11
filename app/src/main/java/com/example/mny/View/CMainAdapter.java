@@ -10,11 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mny.Controller.CustomerMain;
 import com.example.mny.Model.CustomerGoods;
-import com.example.mny.NoticeDialog;
 import com.example.mny.R;
-import com.example.mny.SBDialog;
 
 import java.util.ArrayList;
 
@@ -24,7 +21,6 @@ public class CMainAdapter extends RecyclerView.Adapter<CMainAdapter.GoodsHolder>
         void onItemSelected(String name, String price, String currentStock);
         void GRlistener(String name, String currentStock, String isReserved);
     }
-
     private CMainAdapter.onListListener listener;
 
     private ArrayList<CustomerGoods> goodsList;

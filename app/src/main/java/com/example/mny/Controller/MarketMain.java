@@ -33,9 +33,11 @@ import java.util.Map;
 
 public class MarketMain implements Control {
 
+    /* 필요 요소 */
     private ArrayList<DeliveryData> reservedList = new ArrayList<>();
     private ArrayList<Goods> goodsList = new ArrayList<>();
 
+    /* 구현 상에 요구되는 요소 */
     private Context context;
     private RecyclerView list;
     private ManageDeliveryListAdapter manageDeliveryListAdapter;
@@ -44,15 +46,16 @@ public class MarketMain implements Control {
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public MarketMain() {
 
     }
-
     public MarketMain(Context context, RecyclerView list) {
         this.context = context;
         this.list = list;
     }
 
+    /* 예약된 배달 목록 */
     public void getReservedList() {
         mUser = mAuth.getCurrentUser();
         reservedList.clear();
@@ -100,13 +103,15 @@ public class MarketMain implements Control {
             }
         });
     }
-    public void setReservedList(ArrayList<DeliveryData> reservedList) { this.reservedList = reservedList; }
+
+    /* 배달 목록 디스플레이 */
     public void showDeliveryList() {
         manageDeliveryListAdapter = new ManageDeliveryListAdapter(reservedList, context);
         list.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         list.setAdapter(manageDeliveryListAdapter);
     }
 
+    /* 등록된 상품 목록 */
     public void getGoodsList() {
         mUser = mAuth.getCurrentUser();
         goodsList.clear();
@@ -131,13 +136,15 @@ public class MarketMain implements Control {
             }
         });
     }
-    public void setGoodsList(ArrayList<Goods> goodsList) { this.goodsList = goodsList; }
+
+    /* 상품 목록 디스플레이 */
     public void showGoodsList() {
         manageGoodsListAdapter = new ManageGoodsListAdapter(goodsList, context);
         list.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         list.setAdapter(manageGoodsListAdapter);
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;

@@ -27,37 +27,39 @@ import java.util.Map;
 
 public class ManageGoods implements Control, TwoPickDialog.RemoveClickLister{
 
+    /* 필요 요소 */
     private Goods pickedGoods;
-    private boolean isChange;
 
+    /* 구현 상에 요구되는 요소 */
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public ManageGoods() {
 
     }
-
     public ManageGoods(Context context) {
         this.context = context;
     }
 
+    /* 선택된 상품 getter, setter */
     public Goods getPickedGoods() { return pickedGoods; }
     public void setPickedGoods(Goods pickedGoods) { this.pickedGoods = pickedGoods; }
 
-    public boolean isChange() { return isChange; }
-    public void setChange(boolean change) { isChange = change; }
-
+    /* 상품 삭제 */
     public void deleteGoods() {
         TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageGoodsActivity.class, this, null);
         td.show();
     }
 
+    /* 상품 정보 변경 */
     public void changeGoods(int type) {
         changePage("Update");
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;
@@ -77,6 +79,7 @@ public class ManageGoods implements Control, TwoPickDialog.RemoveClickLister{
 
     }
 
+    /* 버튼 클릭 리스너 구현 부 */
     @Override
     public void Deliveryremovelistener() {
         mUser = mAuth.getCurrentUser();

@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mny.Model.Customer;
 import com.example.mny.Model.Market;
-import com.example.mny.Model.User;
-import com.example.mny.View.SBMarketAdapter;
 import com.example.mny.View.UserListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,11 +21,12 @@ import java.util.ArrayList;
 
 public class AdministratorMain implements Control {
 
+    /* 필요 요소 */
     private ArrayList<Customer> cList = new ArrayList<>();
     private ArrayList<Market> mList = new ArrayList<>();
-    private User currentUser;
     private String type;
 
+    /* 구현 상에 요구되는 요소 */
     private Context context;
     private RecyclerView uList;
     private UserListAdapter userListAdapter;
@@ -35,16 +34,17 @@ public class AdministratorMain implements Control {
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public AdministratorMain() {
 
     }
-
     public AdministratorMain(Context context, String type, RecyclerView userList) {
         this.context = context;
         this.type = type;
         this.uList = userList;
     }
 
+    /* 선택된 목록 */
     public void getList() {
         mUser = mAuth.getCurrentUser();
         if(type.equals("Customer")) {
@@ -80,6 +80,7 @@ public class AdministratorMain implements Control {
         }
     }
 
+    /* 목록 디스플레이 */
     public void showList() {
         if(type.equals("Customer")) {
             userListAdapter = new UserListAdapter(context, type);
@@ -95,6 +96,7 @@ public class AdministratorMain implements Control {
 
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
 

@@ -1,25 +1,18 @@
 package com.example.mny.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mny.Controller.AddMarket;
 import com.example.mny.Controller.PickMarket;
-import com.example.mny.Model.Market;
 import com.example.mny.NoticeDialog;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;

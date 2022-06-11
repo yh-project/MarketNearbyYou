@@ -2,13 +2,11 @@ package com.example.mny.Controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.mny.Model.Customer;
 import com.example.mny.Model.Market;
-import com.example.mny.Model.User;
 import com.example.mny.NoticeDialog;
 import com.example.mny.TwoPickDialog;
 import com.example.mny.View.AMainActivity;
@@ -30,42 +28,47 @@ import java.util.Map;
 
 public class ManageUsers implements Control, TwoPickDialog.BanClickListener {
 
+    /* 필요 요소 */
     private Customer customer;
     private Market market;
     private String type;
 
+    /* 구현 상에 요구되는 요소 */
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public ManageUsers() {
 
     }
-
     public ManageUsers(Context context, String type) {
         this.context = context;
         this.type = type;
     }
 
+    /* Customer, Market 설정 */
     public void setC(Customer customer) { this.customer = customer; }
     public void setM(Market makret) { this.market = makret; }
 
+    /* 3일 정지 */
     public void threeBan() {
         TwoPickDialog td = new TwoPickDialog(context, "정지 누적 횟수 : " + customer.getBanCount() + "\n3일간 정지됩니다.", "3일 정지", "취소", ManageUserActivity.class, null, this);
         td.show();
     }
 
+    /* 영구 정지 */
     public void permanentBan() {
         TwoPickDialog td = new TwoPickDialog(context, "영구정지됩니다.", "영구 정지", "취소", ManageUserActivity.class, null, this);
         td.show();
     }
 
+    /* 정보 변경 */
     public void changeInfo(Customer afterC, Market afterM) {
         if(type.equals("Customer")) {
             if(afterC.getNickname().length() == 0 || afterC.getNumber().length() == 0 || afterC.getEmail().length() == 0) makeNotice("확인", "비어있는 정보가 있습니다.");
             else {
-                Log.d("sibal", "jaebal");
                 db.collection("Customer").get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -147,7 +150,6 @@ public class ManageUsers implements Control, TwoPickDialog.BanClickListener {
                                                                 }
                                                                 List<Map.Entry<String, Map<String, Object>>> entry = new ArrayList<>(tmp.entrySet());
                                                                 for(int i=0; i<entry.size(); i++) {
-                                                                    Log.d("sibal", entry.get(i).getValue().toString());
                                                                     db.collection(afterM.getMarketname()).document(entry.get(i).getKey()).set(entry.get(i).getValue());
                                                                 }
                                                                 for(QueryDocumentSnapshot queryDocumentSnapshotss : task.getResult()) {
@@ -224,6 +226,7 @@ public class ManageUsers implements Control, TwoPickDialog.BanClickListener {
         }
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent = new Intent(context, AMainActivity.class);
@@ -242,6 +245,7 @@ public class ManageUsers implements Control, TwoPickDialog.BanClickListener {
         nd.show();
     }
 
+    /* 각종 버튼 클릭 리스너 구현 부 */
     @Override
     public void Threelistener() {
         if(type.equals("Customer")) {

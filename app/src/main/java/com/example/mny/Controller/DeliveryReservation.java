@@ -33,13 +33,14 @@ import java.util.Map;
 
 public class DeliveryReservation implements Control {
 
+    /* 필요 요소 */
     private ArrayList<DeliveryData> timeList = new ArrayList<>();
     private String pickedTime;
-    private boolean isPicked;
     private String marketName;
     private String type;
     private String target;
 
+    /* 구현 상에 요구되는 요소 */
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
@@ -47,10 +48,10 @@ public class DeliveryReservation implements Control {
     private RecyclerView tList;
     private DeliveryReservationAdapter deliveryReservationAdapter;
 
+    /* 생성자 */
     public DeliveryReservation() {
 
     }
-
     public DeliveryReservation(Context context) {
         this.context = context;
     }
@@ -61,6 +62,7 @@ public class DeliveryReservation implements Control {
         this.target = target;
     }
 
+    /* 배달 시간 목록 */
     public void getTimeList() {
         mUser = mAuth.getCurrentUser();
         db.collection("Delivery").document(getMarketName())
@@ -95,17 +97,16 @@ public class DeliveryReservation implements Control {
         });
 
     }
-    public void setTimeList(ArrayList<DeliveryData> timeList) { this.timeList = timeList; }
 
+    /* 선택된 시간 getter, setter */
     public String getPickedTime() { return pickedTime; }
     public void setPickedTime(String pickedTime) { this.pickedTime = pickedTime; }
 
-    public boolean isPicked() { return isPicked; }
-    public void setPicked(boolean picked) { isPicked = picked; }
-
+    /* 선택된 가게 이름 getter, setter */
     public String getMarketName() { return marketName; }
     public void setMarketName(String marketName) { this.marketName = marketName; }
 
+    /* 배달 예약 */
     public void reserve() {
         mUser = mAuth.getCurrentUser();
         if(type.equals("Customer")) {
@@ -181,12 +182,14 @@ public class DeliveryReservation implements Control {
         }
     }
 
+    /* 배달 시간 목록 디스플레이 */
     public void showList() {
         deliveryReservationAdapter = new DeliveryReservationAdapter(timeList, type, target);
         tList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         tList.setAdapter(deliveryReservationAdapter);
     }
 
+    /* 시간 선택 */
     public void choiceTime() {
         if(deliveryReservationAdapter.getPickedList().size() == 0) makeNotice("확인", "시간을 선택해주세요");
         else if(deliveryReservationAdapter.getPickedList().size() > 1) makeNotice("확인", "한개만 선택가능합니다");
@@ -196,6 +199,7 @@ public class DeliveryReservation implements Control {
         }
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;

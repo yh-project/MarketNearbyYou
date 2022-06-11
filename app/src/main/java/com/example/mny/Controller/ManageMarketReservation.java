@@ -20,35 +20,40 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class ManageMarketReservation implements Control, TwoPickDialog.RemoveClickLister {
 
+    /* 필요 요소 */
     private DeliveryData deliveryData;
     private Market market;
 
+    /* 구현 상에 요구되는 요소 */
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public ManageMarketReservation () {
 
     }
-
     public ManageMarketReservation(Context context, Market market) {
         this.context = context;
         this.market = market;
     }
 
-    public DeliveryData getDeliveryData() { return deliveryData; }
+    /* 배달 일정 설정 */
     public void setDeliveryData(DeliveryData deliveryData) { this.deliveryData = deliveryData; }
 
+    /* 해당 배달 취소 */
     public void cancelReservation() {
         TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageDeliveryActivity.class, this, null);
         td.show();
     }
 
+    /* 배달 일정 변경 */
     public void changeReservation() {
         changePage("DR");
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;
@@ -68,6 +73,7 @@ public class ManageMarketReservation implements Control, TwoPickDialog.RemoveCli
 
     }
 
+    /* 버튼 클릭 리스너 구현 부 */
     @Override
     public void Deliveryremovelistener() {
         mUser = mAuth.getCurrentUser();

@@ -1,26 +1,20 @@
 package com.example.mny.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mny.CategoryDialog;
 import com.example.mny.Controller.CustomerMain;
 import com.example.mny.Model.Market;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;
-
-import java.util.ArrayList;
 
 public class CMainActivity extends AppCompatActivity implements CategoryDialog.OnClickListener {
     private RecyclerView goodsList;

@@ -20,9 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ManageGoodsActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser mUser;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView name;
     private TextView price;
     private TextView currentStock;

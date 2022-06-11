@@ -2,7 +2,6 @@ package com.example.mny.Controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,34 +21,36 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class UpdateGoods implements Control {
 
+    /* 필요 요소 */
     private boolean changeOrnew;
     private Goods goodsInfo;
 
+    /* 구현상에 요구되는 요소 */
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public UpdateGoods() {
 
     }
-
     public UpdateGoods(Context context) {
         this.context = context;
     }
 
+    /* changeOrnew getter, setter */
     public boolean isChangeOrnew() { return changeOrnew; }
     public void setChangeOrnew(boolean changeOrnew) { this.changeOrnew = changeOrnew; }
 
-    public Goods getGoodsInfo() { return goodsInfo; }
+    /* 상품 정보 설정 */
     public void setGoodsInfo(Goods goodsInfo) { this.goodsInfo = goodsInfo; }
 
+    /* 상품 정보 변경 */
     public void changeGoods(Goods newInfo) {
         if(newInfo.getName().equals("") || newInfo.getCurrentStock().equals("") || newInfo.getCategory().equals("") || newInfo.getMax() == -1 || newInfo.getPrice() == -1) {
-            Log.d("hello", "error");
             startToast("모든 항목을 입력해주세요");
         } else if(newInfo.getMax() < 0 || newInfo.getPrice() < 0) {
-            Log.d("hello", "errors");
             startToast("비정상적인 수치가 입력되었습니다");
         } else {
             mUser = mAuth.getCurrentUser();
@@ -64,7 +65,6 @@ public class UpdateGoods implements Control {
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if(task.isSuccessful()) {
                                                 for(QueryDocumentSnapshot document : task.getResult()) {
-                                                    Log.d("hello", goodsInfo.getName());
                                                     if(document.getId().equals(goodsInfo.getName())) {
                                                         document.getReference().delete();
                                                         break;
@@ -80,12 +80,11 @@ public class UpdateGoods implements Control {
         }
     }
 
+    /* 새상품 추가 */
     public void addGoods(Goods newInfo) {
         if(newInfo.getName().equals("") || newInfo.getCurrentStock().equals("") || newInfo.getCategory().equals("") || newInfo.getMax() == -1 || newInfo.getPrice() == -1) {
-            Log.d("hello", "error");
             startToast("모든 항목을 입력해주세요");
         } else if(newInfo.getMax() < 0 || newInfo.getPrice() < 0) {
-            Log.d("hello", "errors");
             startToast("비정상적인 수치가 입력되었습니다");
         } else {
             mUser = mAuth.getCurrentUser();
@@ -101,6 +100,7 @@ public class UpdateGoods implements Control {
         }
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;

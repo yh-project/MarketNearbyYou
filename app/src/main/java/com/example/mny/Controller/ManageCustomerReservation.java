@@ -30,27 +30,29 @@ import java.util.Map;
 
 public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveClickLister, ReservedGoodsAdapter.GoodsListener {
 
+    /* 필요 요소 */
     private Map<String, Map<String, Object>> reservedGoodsList = new HashMap<>();
 
+    /* 구현 상에 요구되는 요소 */
     private Context context;
     private RecyclerView reservedList;
     private TextView marketName;
-
     private TextView time;
     private ReservedMarketsAdapter reservedMarketsAdapter;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public ManageCustomerReservation() {
 
     }
-
     public ManageCustomerReservation(Context context, RecyclerView reservedList) {
         this.context = context;
         this.reservedList = reservedList;
     }
 
+    /* 예약된 가게 이름 */
     public void getReservedmarket(TextView name) {
         mUser = mAuth.getCurrentUser();
         db.collection("Customer").document(mUser.getUid()).collection("Delivery")
@@ -68,6 +70,7 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
         });
     }
 
+    /* 예약된 시간 */
     public void getReservedTime(TextView time) {
         mUser = mAuth.getCurrentUser();
         db.collection("Customer").document(mUser.getUid()).collection("Delivery")
@@ -85,6 +88,7 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
         });
     }
 
+    /* 예약된 상품 목록 */
     public void getReservedGoodsList() {
         mUser = mAuth.getCurrentUser();
         reservedGoodsList.clear();
@@ -99,14 +103,13 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
                         }
                         else reservedGoodsList.put(documet.getId(), documet.getData());
                     }
-                    //db.collection("Customer").document(mUser.getUid()).collection("Reserve").document(documet.getId()).delete();
                     showList();
                 }
             }
         });
     }
-    public void setReservedGoodsList(Map<String, Map<String, Object>> reservedGoodsList) { this.reservedGoodsList = reservedGoodsList; }
 
+    /* 배달 예약 취소 */
     public void cancelDeliveryReservation(TextView marketName, TextView time) {
         TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageReservationActivity.class, this, null);
         td.show();
@@ -114,18 +117,21 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
         this.time = time;
     }
 
+    /* 배달 예약 변경 */
     public void changeDeliveryTime(TextView marketName, TextView time) {
         this.marketName = marketName;
         this.time = time;
         changePage("Delivery");
     }
 
+    /* 상품 목록 디스플레이 */
     public void showList() {
         reservedMarketsAdapter = new ReservedMarketsAdapter(reservedGoodsList, this);
         reservedList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         reservedList.setAdapter(reservedMarketsAdapter);
     }
 
+    /* 상품 예약 취소 */
     public void cancelGoodsReservation(String marketName, String name) {
         makeNotice("확인", "상품을 삭제하였습니다");
         mUser = mAuth.getCurrentUser();
@@ -135,6 +141,7 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
         getReservedGoodsList();
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;
@@ -161,6 +168,7 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
         nd.show();
     }
 
+    /* 각종 버튼 클릭 리스너 구현 부 */
     @Override
     public void Deliveryremovelistener() {
         mUser = mAuth.getCurrentUser();
