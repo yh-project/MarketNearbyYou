@@ -13,9 +13,6 @@ import android.widget.Toast;
 import com.example.mny.Controller.ManageCustomerReservation;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ManageReservationActivity extends AppCompatActivity {
 

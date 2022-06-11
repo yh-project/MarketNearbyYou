@@ -63,7 +63,7 @@ public class ShoppingBasketActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(ShoppingBasketActivity.this, "메인 화면으로 돌아가시겠습니까?", "확인", "취소", CMainActivity.class, this::onBackPressed, null);
+        TwoPickDialog tpd = new TwoPickDialog(ShoppingBasketActivity.this, "메인 화면으로 돌아가시겠습니까?", "확인", "취소", CMainActivity.class, null, null);
         tpd.show();
     }
 }

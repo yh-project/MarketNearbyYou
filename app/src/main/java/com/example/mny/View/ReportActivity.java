@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -60,7 +59,12 @@ public class ReportActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(ReportActivity.this, "메인화면으로 돌아가시겠습니까?", "확인", "취소", CProfileActivity.class, null, null);
-        tpd.show();
+        if(type.equals("Customer")) {
+            TwoPickDialog tpd = new TwoPickDialog(ReportActivity.this, "프로필화면으로 돌아가시겠습니까?", "확인", "취소", CProfileActivity.class, null, null);
+            tpd.show();
+        } else if(type.equals("Market")) {
+            TwoPickDialog tpd = new TwoPickDialog(ReportActivity.this, "프로필화면으로 돌아가시겠습니까?", "확인", "취소", MProfileActivity.class, null, null);
+            tpd.show();
+        }
     }
 }

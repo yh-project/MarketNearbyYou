@@ -129,7 +129,8 @@ public class MarketMain implements Control {
                                 Goods goods = queryDocumentSnapshot.toObject(Goods.class);
                                 goodsList.add(goods);
                             }
-                            showGoodsList();
+                            if(goodsList.size() == 0) makeNotice("확인", "등록된 상품이 없습니다");
+                            else showGoodsList();
                         }
                     }
                 });

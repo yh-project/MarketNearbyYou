@@ -102,8 +102,11 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
     /* 장바구니 상품 목록 디스플레이 */
     public void showList(Map<String, Map<String, Object>> sb) {
         sbMarketAdapter = new SBMarketAdapter(sb, this);
-        sbList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        sbList.setAdapter(sbMarketAdapter);
+        List<Map.Entry<String, Map<String, Object>>> entry = new ArrayList<>(sb.entrySet());
+        if(!(entry.size() == 1 && entry.get(0).getValue().size() == 0)) {
+            sbList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+            sbList.setAdapter(sbMarketAdapter);
+        }
     }
 
     /* 상품 삭제 */
@@ -162,9 +165,12 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
                                                         count = Integer.parseInt(entry.get(position).getValue().toString());
                                                     }
                                                 }
-                                                if(sb.get(goodsName).get("currentStock").equals("재고 없음")) makeNotice("확인", "상품이 매진되었습니다");
+                                                if(sb.get(goodsName).get("currentStock").equals("재고 없음")) {
+                                                    makeNotice("확인", "상품이 매진되었습니다");
+                                                    deleteGoods(marketName, position);
+                                                }
                                                 else if(Integer.parseInt(sb.get(goodsName).get("max").toString()) < count+1) makeNotice("확인", "최대 구매 수를 초과하였습니다");
-                                                else {
+                                                else{
                                                     tmp.get(marketName).put(goodsName, count+1);
                                                     showList(tmp);
                                                     db.collection("Customer").document(mUser.getUid()).collection("SB").document(marketName).set(tmp.get(marketName));
@@ -206,7 +212,10 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
                                                         count = Integer.parseInt(entry.get(position).getValue().toString());
                                                     }
                                                 }
-                                                if(sb.get(goodsName).get("currentStock").equals("재고 없음")) makeNotice("확인", "상품이 매진되었습니다");
+                                                if(sb.get(goodsName).get("currentStock").equals("재고 없음")) {
+                                                    makeNotice("확인", "상품이 매진되었습니다");
+                                                    deleteGoods(marketName, position);
+                                                }
                                                 else if(count-1 <= 0) makeNotice("확인", "더이상 뺄 수 없습니다");
                                                 else if(Integer.parseInt(sb.get(goodsName).get("max").toString()) < count-1) {
                                                     tmp.get(marketName).put(goodsName, Integer.parseInt(sb.get(goodsName).get("max").toString()));
@@ -286,7 +295,7 @@ public class ShoppingBasket implements Control, SBGoodsAdapter.ManageListener {
             context.startActivity(intent);
         } else {
             intent = new Intent(context, DeliveryReservationActivity.class);
-            intent.putExtra("name", pageName + "///Customer");
+            intent.putExtra("name", pageName + "///Customer/// ");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

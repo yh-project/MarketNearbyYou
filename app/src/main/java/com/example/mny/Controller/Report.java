@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.example.mny.NoticeDialog;
 import com.example.mny.View.CProfileActivity;
 import com.example.mny.View.MMainActivity;
+import com.example.mny.View.MProfileActivity;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -95,7 +96,7 @@ public class Report implements Control {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         } else if(type.equals("Makret")) {
-            intent= new Intent(context, MMainActivity.class);
+            intent= new Intent(context, MProfileActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

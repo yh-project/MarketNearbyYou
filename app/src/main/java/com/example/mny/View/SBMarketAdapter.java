@@ -1,7 +1,6 @@
 package com.example.mny.View;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHol
     private Map<String, Map<String, Object>> sb;
     private List<Map.Entry<String, Map<String, Object>>> sbEntry;
     private int count = 0;
-    private int chosenMarket = 0;
     private LinkedList<String> mList = new LinkedList<>();
     private SBGoodsAdapter.ManageListener listener;
 
@@ -50,9 +48,10 @@ public class SBMarketAdapter extends RecyclerView.Adapter<SBMarketAdapter.SBMHol
 
     @Override
     public void onBindViewHolder(@NonNull SBMHolder holder, int position) {
-        Log.d("과연", ""+sbEntry.size());
-        holder.onBind(sbEntry.get(position).getKey());
-        count++;
+        if(sbEntry.get(position).getValue().size() != 0) {
+            holder.onBind(sbEntry.get(position).getKey());
+            count++;
+        }
     }
 
     @Override
