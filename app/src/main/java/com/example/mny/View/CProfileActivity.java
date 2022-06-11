@@ -93,7 +93,7 @@ public class CProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(CProfileActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CProfileActivity.class, this::onBackPressed);
+        TwoPickDialog tpd = new TwoPickDialog(CProfileActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CProfileActivity.class, this::onBackPressed, null);
         tpd.show();
     }
 }

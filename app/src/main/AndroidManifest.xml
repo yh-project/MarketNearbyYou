@@ -35,6 +35,8 @@
         <activity android:name=".View.ManageGoodsActivity" android:exported="true" />
         <activity android:name=".View.AddGoodsActivity" android:exported="true" />
         <activity android:name=".View.ReportActivity" android:exported="true" />
+        <activity android:name=".View.AMainActivity" android:exported="true" />
+        <activity android:name=".View.ManageUserActivity" android:exported="true" />
     </application>
 
 </manifest>

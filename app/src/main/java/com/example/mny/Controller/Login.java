@@ -12,6 +12,7 @@ import com.example.mny.Model.Market;
 import com.example.mny.Model.User;
 import com.example.mny.NoticeDialog;
 import com.example.mny.TwoPickDialog;
+import com.example.mny.View.AMainActivity;
 import com.example.mny.View.AddMarketActivity1;
 import com.example.mny.View.CMainActivity;
 import com.example.mny.View.JoinActivity;
@@ -126,6 +127,8 @@ public class Login implements Control{
                     }
                 }
             });
+        } else if(type.equals("Admin")) {
+            changePage("AMain");
         }
     }
     public void setUser(User loginUser) { this.loginUser = loginUser; }
@@ -150,6 +153,11 @@ public class Login implements Control{
         }
         else if(pageName.equals("MMain")) {
             intent = new Intent(context, MMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+        }
+        else if(pageName.equals("AMain")) {
+            intent = new Intent(context, AMainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

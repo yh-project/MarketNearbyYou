@@ -108,7 +108,7 @@ public class ManageCustomerReservation implements Control, TwoPickDialog.RemoveC
     public void setReservedGoodsList(Map<String, Map<String, Object>> reservedGoodsList) { this.reservedGoodsList = reservedGoodsList; }
 
     public void cancelDeliveryReservation(TextView marketName, TextView time) {
-        TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageReservationActivity.class, this);
+        TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageReservationActivity.class, this, null);
         td.show();
         this.marketName = marketName;
         this.time = time;

@@ -41,7 +41,7 @@ public class ManageMarketReservation implements Control, TwoPickDialog.RemoveCli
     public void setDeliveryData(DeliveryData deliveryData) { this.deliveryData = deliveryData; }
 
     public void cancelReservation() {
-        TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageDeliveryActivity.class, this);
+        TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageDeliveryActivity.class, this, null);
         td.show();
     }
 

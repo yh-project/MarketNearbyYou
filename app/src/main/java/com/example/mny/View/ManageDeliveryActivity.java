@@ -101,7 +101,7 @@ public class ManageDeliveryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(ManageDeliveryActivity.this, "메인 화면으로\n이동하시겠습니까?", "확인", "취소", MMainActivity.class, null);
+        TwoPickDialog tpd = new TwoPickDialog(ManageDeliveryActivity.this, "메인 화면으로\n이동하시겠습니까?", "확인", "취소", MMainActivity.class, null, null);
         tpd.show();
     }
 }

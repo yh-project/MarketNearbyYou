@@ -89,7 +89,7 @@ public class ManageReservationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(ManageReservationActivity.this, "프로필 화면으로\n이동하시겠습니까?", "확인", "취소", CProfileActivity.class, null);
+        TwoPickDialog tpd = new TwoPickDialog(ManageReservationActivity.this, "프로필 화면으로\n이동하시겠습니까?", "확인", "취소", CProfileActivity.class, null, null);
         tpd.show();
     }
 }

@@ -69,7 +69,7 @@ public class DeliveryReservationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(DeliveryReservationActivity.this, "메인 화면으로 돌아가시겠습니까?", "확인", "취소", CMainActivity.class, this::onBackPressed);
+        TwoPickDialog tpd = new TwoPickDialog(DeliveryReservationActivity.this, "메인 화면으로 돌아가시겠습니까?", "확인", "취소", CMainActivity.class, this::onBackPressed, null);
         tpd.show();
     }
 }

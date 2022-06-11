@@ -50,7 +50,7 @@ public class ManageGoods implements Control, TwoPickDialog.RemoveClickLister{
     public void setChange(boolean change) { isChange = change; }
 
     public void deleteGoods() {
-        TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageGoodsActivity.class, this);
+        TwoPickDialog td = new TwoPickDialog(context, "정말 삭제하시겠습니까?", "삭제", "취소", ManageGoodsActivity.class, this, null);
         td.show();
     }
 

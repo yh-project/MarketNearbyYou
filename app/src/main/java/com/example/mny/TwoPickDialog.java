@@ -19,7 +19,14 @@ public class TwoPickDialog extends Dialog {
 
     private TwoPickDialog.RemoveClickLister listener;
 
-    public TwoPickDialog(@NonNull Context context, String content, String btn1, String btn2, Class c, RemoveClickLister listener) {
+    public interface BanClickListener {
+        void Threelistener();
+        void Foreverlistener();
+    }
+
+    private TwoPickDialog.BanClickListener banClickListener;
+
+    public TwoPickDialog(@NonNull Context context, String content, String btn1, String btn2, Class c, RemoveClickLister listener, BanClickListener banClickListener) {
         super(context);
         setContentView(R.layout.dialog_twopick);
 
@@ -27,6 +34,7 @@ public class TwoPickDialog extends Dialog {
         Button b1 = findViewById(R.id.btn1);
         Button b2 = findViewById(R.id.btn2);
         this.listener = listener;
+        this.banClickListener = banClickListener;
 
         contents.setText(content);
         b1.setText(btn1);
@@ -46,6 +54,14 @@ public class TwoPickDialog extends Dialog {
                         break;
                     case "삭제":
                         listener.Deliveryremovelistener();
+                        dismiss();
+                        break;
+                    case "3일 정지":
+                        banClickListener.Threelistener();
+                        dismiss();
+                        break;
+                    case "영구 정지":
+                        banClickListener.Foreverlistener();
                         dismiss();
                         break;
                 }

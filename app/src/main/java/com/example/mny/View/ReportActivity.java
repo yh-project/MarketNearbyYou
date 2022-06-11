@@ -72,7 +72,7 @@ public class ReportActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(ReportActivity.this, "메인화면으로 돌아가시겠습니까?", "확인", "취소", CProfileActivity.class, null);
+        TwoPickDialog tpd = new TwoPickDialog(ReportActivity.this, "메인화면으로 돌아가시겠습니까?", "확인", "취소", CProfileActivity.class, null, null);
         tpd.show();
     }
 }

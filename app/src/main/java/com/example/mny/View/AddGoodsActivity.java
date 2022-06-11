@@ -118,7 +118,7 @@ public class AddGoodsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(AddGoodsActivity.this, "메인 화면으로\n이동하시겠습니까?", "확인", "취소", ManageGoodsActivity.class, null);
+        TwoPickDialog tpd = new TwoPickDialog(AddGoodsActivity.this, "메인 화면으로\n이동하시겠습니까?", "확인", "취소", ManageGoodsActivity.class, null, null);
         tpd.show();
     }
 }

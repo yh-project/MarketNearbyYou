@@ -57,7 +57,7 @@
             android:layout_marginTop="30dp" />
 
         <EditText
-            android:id="@+id/edit_nickname"
+            android:id="@+id/cnickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -76,13 +76,13 @@
             android:text="전화 번호"
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/edit_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/cnickname"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp" />
 
         <EditText
-            android:id="@+id/edit_numberc"
+            android:id="@+id/cnumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -101,13 +101,13 @@
             android:text="이메일"
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/edit_numberc"
+            app:layout_constraintTop_toBottomOf="@+id/cnumber"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp" />
 
         <EditText
-            android:id="@+id/edit_email"
+            android:id="@+id/cemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -120,37 +120,37 @@
             android:layout_marginTop="10dp" />
 
         <Button
-            android:id="@+id/threeC"
+            android:id="@+id/cthree"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="3일 정지"
             android:textColor="#ffffff"
             android:background="@drawable/btn_33529f"
-            app:layout_constraintTop_toBottomOf="@+id/edit_email"
+            app:layout_constraintTop_toBottomOf="@+id/cemail"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="30dp"
             android:layout_marginStart="30dp" />
 
         <Button
-            android:id="@+id/foreverC"
+            android:id="@+id/cforever"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="영구 정지"
             android:textColor="#ffffff"
             android:background="@drawable/btn_33529f"
-            app:layout_constraintStart_toEndOf="@+id/threeC"
-            app:layout_constraintTop_toBottomOf="@+id/edit_email"
+            app:layout_constraintStart_toEndOf="@+id/cthree"
+            app:layout_constraintTop_toBottomOf="@+id/cemail"
             android:layout_marginTop="30dp"
             android:layout_marginStart="30dp" />
 
         <Button
-            android:id="@+id/finishC"
+            android:id="@+id/cfinish"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="수정 완료"
             android:textColor="#ffffff"
             android:background="@drawable/btn_33529f"
-            app:layout_constraintTop_toBottomOf="@+id/threeC"
+            app:layout_constraintTop_toBottomOf="@+id/cthree"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="10dp"
             android:layout_marginStart="30dp" />
@@ -179,7 +179,7 @@
             android:layout_marginTop="30dp" />
 
         <EditText
-            android:id="@+id/edit_name"
+            android:id="@+id/mname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -198,13 +198,13 @@
             android:text="전화 번호"
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/edit_name"
+            app:layout_constraintTop_toBottomOf="@+id/mname"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp" />
 
         <EditText
-            android:id="@+id/edit_number"
+            android:id="@+id/mnumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -220,16 +220,16 @@
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="가게 주소"
+            android:text="가게 관리자 이메일"
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/edit_number"
+            app:layout_constraintTop_toBottomOf="@+id/mnumber"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp" />
 
         <EditText
-            android:id="@+id/edit_address"
+            android:id="@+id/memail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -242,37 +242,37 @@
             android:layout_marginTop="10dp" />
 
         <Button
-            android:id="@+id/threeM"
+            android:id="@+id/mthree"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="3일 정지"
             android:textColor="#ffffff"
             android:background="@drawable/btn_33529f"
-            app:layout_constraintTop_toBottomOf="@+id/edit_address"
+            app:layout_constraintTop_toBottomOf="@+id/memail"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="30dp"
             android:layout_marginStart="30dp" />
 
         <Button
-            android:id="@+id/foreverM"
+            android:id="@+id/mforever"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="영구 정지"
             android:textColor="#ffffff"
             android:background="@drawable/btn_33529f"
-            app:layout_constraintStart_toEndOf="@+id/threeM"
-            app:layout_constraintTop_toBottomOf="@+id/edit_address"
+            app:layout_constraintStart_toEndOf="@+id/mthree"
+            app:layout_constraintTop_toBottomOf="@+id/memail"
             android:layout_marginTop="30dp"
             android:layout_marginStart="30dp" />
 
         <Button
-            android:id="@+id/finishM"
+            android:id="@+id/mfinish"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="수정 완료"
             android:textColor="#ffffff"
             android:background="@drawable/btn_33529f"
-            app:layout_constraintTop_toBottomOf="@+id/threeM"
+            app:layout_constraintTop_toBottomOf="@+id/mthree"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="10dp"
             android:layout_marginStart="30dp" />
