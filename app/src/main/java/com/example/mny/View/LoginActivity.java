@@ -15,7 +15,7 @@ import com.example.mny.TwoPickDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Login login_control;
+    Login login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +43,16 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             String email = ((EditText)findViewById(R.id.input_email)).getText().toString();
             String password = ((EditText)findViewById(R.id.input_pwd)).getText().toString();
-            login_control = new Login(email, password, LoginActivity.this);
+            login = new Login(email, password, LoginActivity.this);
             switch(v.getId()) {
                 case R.id.join:
-                    login_control.changePage("Join");
+                    login.changePage("Join");
                     break;
                 case R.id.addMarket:
-                    login_control.changePage("AddMarket");
+                    login.changePage("AddMarket");
                     break;
                 case R.id.login:
-                    login_control.login();
+                    login.login();
                     break;
                 case R.id.back:
                     onBackPressed();
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(LoginActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", null, this::onBackPressed, null);
+        TwoPickDialog tpd = new TwoPickDialog(LoginActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", null, null, null);
         tpd.show();
     }
 }
