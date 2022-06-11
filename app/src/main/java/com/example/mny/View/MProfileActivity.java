@@ -7,40 +7,42 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mny.Model.Customer;
+import com.example.mny.Model.Market;
 import com.example.mny.R;
 import com.example.mny.TwoPickDialog;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class CProfileActivity extends AppCompatActivity {
+public class MProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private Customer customer;
+    private Market market;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cprofile);
+        setContentView(R.layout.activity_mprofile);
 
-        TextView nickname = findViewById(R.id.nickname);
         TextView email = findViewById(R.id.email);
+        TextView name = findViewById(R.id.name);
         TextView number = findViewById(R.id.number);
-        Button MR = findViewById(R.id.MR);
-        Button SB = findViewById(R.id.SB);
+        TextView time = findViewById(R.id.time);
+        TextView deliveryTime = findViewById(R.id.deliveryTime);
+        TextView type = findViewById(R.id.type);
+        TextView address = findViewById(R.id.address);
         Button report = findViewById(R.id.report);
+        ImageView back = findViewById(R.id.back);
 
-        MR.setOnClickListener(onClickListener);
-        SB.setOnClickListener(onClickListener);
         report.setOnClickListener(onClickListener);
+        back.setOnClickListener(onClickListener);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
@@ -48,14 +50,19 @@ public class CProfileActivity extends AppCompatActivity {
         getWindow().setAttributes(layoutParams);
 
         mUser = mAuth.getCurrentUser();
-        Task<DocumentSnapshot> task = db.collection("Customer").document(mUser.getUid()).get();
+        Task<DocumentSnapshot> task = db.collection("Market").document(mUser.getUid()).get();
         while(true) {
             if(task.isSuccessful()) {
-                customer = task.getResult().toObject(Customer.class);
-                nickname.setText(customer.getNickname());
-                email.setText(customer.getEmail());
-                number.setText(customer.getNumber());
-                break;
+                market = task.getResult().toObject(Market.class);
+                email.setText(market.getEmail());
+                name.setText(market.getMarketname());
+                number.setText(market.getNumber());
+                time.setText(market.getOpen() + " ~ " + market.getClose());
+                deliveryTime.setText(market.getStart() + " ~ " + market.getFinish());
+                if(market.getMarketType() == 1) type.setText("마트");
+                else if(market.getMarketType() == 2) type.setText("편의점");
+                else type.setText("그 외");
+                address.setText(market.getAddress());
             }
         }
     }
@@ -65,19 +72,9 @@ public class CProfileActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent intent;
             switch(v.getId()) {
-                case R.id.MR:
-                    intent = new Intent(CProfileActivity.this, ManageReservationActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    break;
-                case R.id.SB:
-                    intent = new Intent(CProfileActivity.this, ShoppingBasketActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    break;
                 case R.id.report:
-                    intent = new Intent(CProfileActivity.this, ReportActivity.class);
-                    intent.putExtra("type", "Customer");
+                    intent = new Intent(MProfileActivity.this, ReportActivity.class);
+                    intent.putExtra("type", "Market");
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     break;
@@ -90,7 +87,7 @@ public class CProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(CProfileActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CProfileActivity.class, this::onBackPressed, null);
+        TwoPickDialog tpd = new TwoPickDialog(MProfileActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", MProfileActivity.class, null, null);
         tpd.show();
     }
 }

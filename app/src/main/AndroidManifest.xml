@@ -19,14 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.JoinActivity" android:exported="true" />
-        <activity android:name=".View.MEditProfileActivity2" android:exported="true" />
         <activity android:name=".View.AddMarketActivity2" android:exported="true" />
         <activity android:name=".View.AddMarketActivity1" android:exported="true" />
         <activity android:name=".View.PickMarketActivity" android:exported="true" />
         <activity android:name=".View.CMainActivity" android:exported="true" />
         <activity android:name=".View.ShoppingBasketActivity" android:exported="true" />
-        <activity android:name=".View.CEditProfileActivity" android:exported="true" />
-        <activity android:name=".View.MEditProfileActivity1" android:exported="true" />
         <activity android:name=".View.DeliveryReservationActivity" android:exported="true" />
         <activity android:name=".View.CProfileActivity" android:exported="true" />
         <activity android:name=".View.ManageReservationActivity" android:exported="true" />
@@ -37,6 +34,7 @@
         <activity android:name=".View.ReportActivity" android:exported="true" />
         <activity android:name=".View.AMainActivity" android:exported="true" />
         <activity android:name=".View.ManageUserActivity" android:exported="true" />
+        <activity android:name=".View.MProfileActivity" android:exported="true" />
     </application>
 
 </manifest>
