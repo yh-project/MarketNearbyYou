@@ -16,12 +16,12 @@ import com.example.mny.TwoPickDialog;
 
 public class JoinActivity extends AppCompatActivity {
 
-    Join join_control;
-    String email;
-    String pwd;
-    String check;
-    String nickname;
-    String number;
+    private Join join_control;
+    private String email;
+    private String pwd;
+    private String check;
+    private String nickname;
+    private String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class JoinActivity extends AppCompatActivity {
                     join_control.sendMail(email, findViewById(R.id.sendmail));
                     break;
                 case R.id.join:
-                    if(findViewById(R.id.sendmail).isClickable()) { join_control.startToast("이메일 인증을 먼저 진행해주세요"); }
+                    if(findViewById(R.id.sendmail).isClickable()) { join_control.startToast("이메일 인증을 완료해주세요"); }
                     else {
                         pwd = ((EditText) findViewById(R.id.input_pwd)).getText().toString();
                         check = ((EditText) findViewById(R.id.input_check)).getText().toString();
@@ -73,7 +73,7 @@ public class JoinActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(JoinActivity.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class, this::onBackPressed, null);
+        TwoPickDialog tpd = new TwoPickDialog(JoinActivity.this, "입력한 내용이 사라집니다.", "확인", "취소", LoginActivity.class, null, null);
         tpd.show();
     }
 }

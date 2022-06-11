@@ -27,14 +27,17 @@ import java.util.Map;
 
 public class Join implements Control {
 
+    /* 필요 요소 */
     private String type;
     private Customer user;
 
+    /* 구현 상의 요구되는 요소 */
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public Join() {
 
     }
@@ -43,16 +46,17 @@ public class Join implements Control {
         this.context = context;
     }
 
-    public String getType() { return type; }
+    /* 유저 타입 지정 */
     public void setType(String type) {
         this.type = type;
     }
 
-    public Customer getCustomer() { return user; }
+    /* 입력된 정보의 Customer 생성 */
     public void setCustomer(Customer user) {
         this.user = user;
     }
 
+    /* 인증 메일 전송 */
     public void sendMail(String email, Button button) {
         if(email.length() == 0) { startToast("이메일을 입력해주세요"); }
         else {
@@ -61,13 +65,11 @@ public class Join implements Control {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Log.d("성공", "회원가입 성공");
                                 mUser = mAuth.getCurrentUser();
                                 mUser.sendEmailVerification()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Log.d("성공", "전송 완료");
                                                 startToast("인증메일을 전송했습니다");
                                                 button.setClickable(false);
                                             }
@@ -75,7 +77,6 @@ public class Join implements Control {
                             } else {
                                 if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                     startToast("중복된 이메일입니다");
-                                    Log.d("실패", "중복");
                                 }
                             }
                         }
@@ -83,17 +84,17 @@ public class Join implements Control {
         }
     }
 
+    /* 메일 인증 확인 */
     public boolean isCheckedMail() {
         mUser.reload();
         if(mUser.isEmailVerified()) {
-            Log.d("성공", "인증 완료");
             return true;
         } else {
-            Log.d("실패", "인증 미완료");
             return false;
         }
     }
 
+    /* 최종 회원가입 절차 진행 */
     public void signup(String pwd, String check) {
         if(isCheckedMail()) {
             Log.d("성공", "인증 완료 확인 성공");
@@ -112,7 +113,6 @@ public class Join implements Control {
                             typeList.put("type", type);
                             if(nickList.containsKey(user.getNickname())) {
                                 startToast("중복된 닉네임입니다");
-                                Log.d("실패", "중복된 닉네임입니다");
                             } else {
                                 mUser.updatePassword(pwd)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -123,11 +123,8 @@ public class Join implements Control {
                                                     db.collection("Customer").document(mUser.getUid()).set(user);
                                                     nickList.put(user.getNickname(), user.getNickname());
                                                     db.collection("Info").document("nickname").update(nickList);
-                                                    Log.d("성공", "비밀번호 설정 성공");
                                                     startToast("고객 등록에 성공했습니다");
                                                     changePage("Login");
-                                                } else {
-                                                    Log.d("실패", "비밀번호 설정 실패");
                                                 }
                                             }
                                         });
@@ -138,11 +135,11 @@ public class Join implements Control {
             }
         }
         else {
-            Log.d("성공", "인증 미완료 확인 성공");
             startToast("이메일 인증을 완료해주세요");
         }
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;
