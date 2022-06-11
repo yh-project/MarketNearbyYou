@@ -40,10 +40,12 @@ import java.util.Map;
 
 public class CustomerMain implements Control, CMainAdapter.onListListener, SBDialog.SBClickListener {
 
+    /* 필요 요소 */
     private ArrayList<CustomerGoods> goodsList = new ArrayList<CustomerGoods>();
     private Market selectedMarket = new Market();
     private String selectedGoods;
 
+    /* 구현 상에 요구되는 요소 */
     private Context context;
     private RecyclerView goods_List;
     private CMainAdapter cMainAdapter;
@@ -51,10 +53,10 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
     private FirebaseUser mUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public CustomerMain() {
 
     }
-
     public CustomerMain(Context context) {
         this.context = context;
     }
@@ -64,9 +66,11 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
         this.goods_List = goods_List;
     }
 
+    /* 선택된 상품에 대한 getter setter */
     public String getSelectedGoods() { return this.selectedGoods; }
     public void setSelectedGoods(String customerGoods) { this.selectedGoods = customerGoods; }
 
+    /* 상품 목록 */
     public void getList() {
         mUser = mAuth.getCurrentUser();
         db.collection(selectedMarket.getMarketname()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -100,14 +104,15 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
             }
         });
     }
-    public void setList(ArrayList<CustomerGoods> goodsList) { this.goodsList = goodsList; }
 
+    /* 상품 목록 디스플레이 */
     public void showList() {
         cMainAdapter = new CMainAdapter(goodsList, this);
         goods_List.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         goods_List.setAdapter(cMainAdapter);
     }
 
+    /* 상품 카테고리 선택 */
     public void pickGoodsCategory(String category, String currentStock) {
         if(selectedMarket.getMarketType() == 0) startToast("선택된 가게가 없습니다");
         else {
@@ -131,10 +136,12 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
         }
     }
 
+    /* 바뀐 텍스트 디스플레이 */
     public void changeText() {
         ((TextView) ((Activity)context).findViewById(R.id.noGoods)).setVisibility(View.VISIBLE);
     }
 
+    /* 장바구니 담기 */
     public void putShoppingBasket(String name) {
         db.collection(selectedMarket.getMarketname()).document(name).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -146,6 +153,7 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
                 });
     }
 
+    /* 상품 예약 */
     public void reserveGoods(String name, String currentStock, String isReserved) {
         mUser = mAuth.getCurrentUser();
         if(!currentStock.equals("재고 없음")) makeNotice("확인", "예약할 수 없는 상품입니다");
@@ -177,9 +185,10 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
         }
     }
 
+    /* 선택된 가게 getter */
     public Market getSelectedMarket() { return selectedMarket; }
-    public void setSelectedMarket(Market selectedMarket) { this.selectedMarket = selectedMarket; }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent;
@@ -211,6 +220,7 @@ public class CustomerMain implements Control, CMainAdapter.onListListener, SBDia
         nd.show();
     }
 
+    /* 각종 버튼 클릭 리스너 구현 부 */
     @Override
     public void onItemSelected(String name, String price, String currentStock) {
         if(currentStock.equals("재고 없음")) makeNotice("확인", "재고가 없습니다");

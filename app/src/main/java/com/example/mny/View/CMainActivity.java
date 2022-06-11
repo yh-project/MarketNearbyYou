@@ -50,11 +50,9 @@ public class CMainActivity extends AppCompatActivity implements CategoryDialog.O
 
         Intent intent = getIntent();
         if((market = (Market)intent.getSerializableExtra("market")) != null) {
-            Log.d("성공", market.getMarketname());
             customerMain = new CustomerMain(CMainActivity.this, market, goodsList);
             customerMain.getList();
         } else {
-            Log.d("실패", "받을 것 없음");
             customerMain = new CustomerMain(CMainActivity.this);
         }
     }
@@ -81,7 +79,7 @@ public class CMainActivity extends AppCompatActivity implements CategoryDialog.O
 
     @Override
     public void onBackPressed() {
-        TwoPickDialog tpd = new TwoPickDialog(CMainActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", CMainActivity.class, this::onBackPressed, null);
+        TwoPickDialog tpd = new TwoPickDialog(CMainActivity.this, "앱을 종료시키겠습니까?", "종료", "취소", null, null, null);
         tpd.show();
     }
 

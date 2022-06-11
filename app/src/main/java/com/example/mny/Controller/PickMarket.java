@@ -28,16 +28,17 @@ import java.util.Map;
 
 public class PickMarket implements Control, PickMarketAdapter.OnListItemSelectedInterface {
 
-    ArrayList<Market> marketList = new ArrayList<Market>();
-    Market selectedMarket;
-    Context context;
-    RecyclerView market_list;
-    PickMarketAdapter pickMarketAdapter;
+    /* 필요 요소 */
+    private ArrayList<Market> marketList = new ArrayList<Market>();
+    private Market selectedMarket;
+    private Context context;
+    private RecyclerView market_list;
+    private PickMarketAdapter pickMarketAdapter;
 
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser mUser;
+    /* 구현 상의 요구되는 요소 */
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /* 생성자 */
     public PickMarket() {
 
     }
@@ -47,6 +48,7 @@ public class PickMarket implements Control, PickMarketAdapter.OnListItemSelected
         this.market_list = market_list;
     }
 
+    /* 가게 목록 */
     public void getList(int type, String address) {
         marketList.clear();
         db.collection("Market")
@@ -69,12 +71,14 @@ public class PickMarket implements Control, PickMarketAdapter.OnListItemSelected
                 });
     }
 
+    /* 목록 디스플레이 */
     public void showList() {
         pickMarketAdapter = new PickMarketAdapter(marketList, this);
         market_list.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         market_list.setAdapter(pickMarketAdapter);
     }
 
+    /* Control 인터페이스 구현 부 */
     @Override
     public void changePage(String pageName) {
         Intent intent = new Intent(context, CMainActivity.class);
@@ -94,6 +98,7 @@ public class PickMarket implements Control, PickMarketAdapter.OnListItemSelected
         nd.show();
     }
 
+    /* 어댑터 버튼 클릭 리스너 구현 부 */
     @Override
     public void onItemSelected(View v, int position) {
         PickMarketAdapter.MarketsHolder marketsHolder = (PickMarketAdapter.MarketsHolder)market_list.findViewHolderForAdapterPosition(position);

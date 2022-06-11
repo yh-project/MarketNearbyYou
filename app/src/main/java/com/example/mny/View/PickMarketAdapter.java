@@ -20,7 +20,6 @@ public class PickMarketAdapter extends RecyclerView.Adapter<PickMarketAdapter.Ma
     public interface OnListItemSelectedInterface {
         void onItemSelected(View v, int position);
     }
-
     private OnListItemSelectedInterface mListener;
 
     private ArrayList<Market> marketList;
